@@ -13,13 +13,12 @@ class StatsTransactionalOperation implements StatsOperation {
     private final StatsProvider statsProvider;
     private final StatsDeletion statsDeletion;
 
-    //todo provide proper implementation
     @Override
     @Transactional
     public Try<Void> process(String targetServiceUrl) {
         return statsProvider.statsFrom(targetServiceUrl)
                 .map(ResponseEntity::getBody)
-                .flatMap(statsRepository::saveAll)
+                .flatMap(statsRepository::upsertAll)
                 .flatMap(__ -> statsDeletion.deleteFrom(targetServiceUrl))
                 .map(ResponseEntity::getBody);
     }

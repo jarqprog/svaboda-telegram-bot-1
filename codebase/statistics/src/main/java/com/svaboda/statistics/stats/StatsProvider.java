@@ -1,6 +1,6 @@
 package com.svaboda.statistics.stats;
 
-import com.svaboda.storage.stats.Statistics;
+import com.svaboda.storage.stats.Statistic;
 import io.vavr.control.Try;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
@@ -14,12 +14,12 @@ class StatsProvider {
 
     private final WebClient webClient;
 
-    Try<ResponseEntity<List<Statistics>>> statsFrom(String url) {
+    Try<ResponseEntity<List<Statistic>>> statsFrom(String url) {
         return Try.of(() -> webClient.get()
                 .uri(url)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .toEntityList(Statistics.class)
+                .toEntityList(Statistic.class)
                 .block()
         );
     }

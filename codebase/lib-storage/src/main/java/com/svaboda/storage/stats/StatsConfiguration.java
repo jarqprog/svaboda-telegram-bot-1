@@ -9,7 +9,7 @@ class StatsConfiguration {
 
     @Bean
     StatsRepository statsRepository(MongoTemplate mongoTemplate) {
-        return new MongoStats(mongoTemplate);
+        return new MongoDatabase(mongoTemplate);
     }
 
 }
