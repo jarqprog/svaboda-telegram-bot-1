@@ -25,7 +25,7 @@ public class Statistic {
 
     Set<UniqueChat> asUniqueChats() {
         return uniqueChats.stream()
-                .map(UniqueChat::new)
+                .map(chatId -> new UniqueChat(chatId, generatedAt))
                 .collect(Collectors.toSet());
     }
 
@@ -52,7 +52,25 @@ public class Statistic {
     @AllArgsConstructor
     static class UniqueChat {
         final static String CHAT_ID = "chatId";
+        final static String REGISTERED_AT = "registeredAt";
         @Id
         long chatId;
+
+        String registeredAt;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof UniqueChat)) return false;
+
+            UniqueChat that = (UniqueChat) o;
+
+            return chatId == that.chatId;
+        }
+
+        @Override
+        public int hashCode() {
+            return (int) (chatId ^ (chatId >>> 32));
+        }
     }
 }

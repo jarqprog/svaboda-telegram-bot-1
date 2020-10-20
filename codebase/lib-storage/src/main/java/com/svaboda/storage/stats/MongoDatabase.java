@@ -12,12 +12,13 @@ import java.util.*;
 
 import static com.google.common.collect.Sets.difference;
 import static com.svaboda.storage.stats.Statistic.UniqueChat.CHAT_ID;
+import static com.svaboda.storage.stats.Statistic.UniqueChat.REGISTERED_AT;
 
 @Slf4j
 @RequiredArgsConstructor
 class MongoDatabase implements StatsRepository {
 
-    private final static int MAX_PROCESSABLE_UPSERT_SIZE = 100;
+    private final static int MAX_PROCESSABLE_UPSERT_SIZE = 50;
     private final static Query ALL = new Query();
     private final MongoTemplate mongoTemplate;
 
@@ -44,8 +45,7 @@ class MongoDatabase implements StatsRepository {
 
     private void upsert(Statistic statistic) {
         mongoTemplate.save(statistic.asStats());//todo add proper implementation
-        final var uniqueChats = generateOfSize(30000);
-//        final var uniqueChats = statistic.asUniqueChats();
+        final var uniqueChats = statistic.asUniqueChats();
         final var processed = processUniqueChats(uniqueChats);
         log.info("Stats saved with observed new unique chats={}", processed);
     }
@@ -59,9 +59,11 @@ class MongoDatabase implements StatsRepository {
     }
 
     private long withInsert(Set<Statistic.UniqueChat> uniqueChats) {
+        Query onlyChatIds = new Query();
+        onlyChatIds.fields().include(CHAT_ID);
         log.info("Processing with INSERT");
         if (!uniqueChats.isEmpty()) {
-            final var alreadySavedUniqueChats = new HashSet<>(mongoTemplate.findAll(Statistic.UniqueChat.class));
+            final var alreadySavedUniqueChats = new HashSet<>(mongoTemplate.find(onlyChatIds, Statistic.UniqueChat.class));
             final var diff = difference(uniqueChats, alreadySavedUniqueChats);
             if (!diff.isEmpty()) {
                 return mongoTemplate.insertAll(diff).size();
@@ -81,7 +83,9 @@ class MongoDatabase implements StatsRepository {
     private long upsertUniqueChat(Statistic.UniqueChat uniqueChat) {
         return mongoTemplate.upsert(
                 new Query(Criteria.where(CHAT_ID).is(uniqueChat.chatId)),
-                new Update().setOnInsert(CHAT_ID, uniqueChat.chatId),
+                new Update()
+                        .setOnInsert(CHAT_ID, uniqueChat.chatId)
+                        .setOnInsert(REGISTERED_AT, uniqueChat.registeredAt),
                 Statistic.UniqueChat.class
         ).getMatchedCount();
     }
@@ -89,7 +93,7 @@ class MongoDatabase implements StatsRepository {
     private Set<Statistic.UniqueChat> generateOfSize(int size) {
         final var result = new ArrayList<Statistic.UniqueChat>(size);
         for (int i = 0; i< size; i++) {
-            result.add(new Statistic.UniqueChat(99990000L+i));
+            result.add(new Statistic.UniqueChat(90569900L+i, String.valueOf(i)));
         }
         return new HashSet<>(result);
     }
