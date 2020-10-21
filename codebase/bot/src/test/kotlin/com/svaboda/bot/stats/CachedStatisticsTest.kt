@@ -5,7 +5,6 @@ import com.svaboda.bot.commands.CommandTestUtils.commandsProperties
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.time.LocalDateTime
 import java.util.*
 
 class CachedStatisticsTest {
@@ -116,32 +115,14 @@ class CachedStatisticsTest {
     }
 
     @Test
-    fun `should not delete current statistics when past date provided`() {
+    fun `should delete statistics`() {
         //given
-        val now = LocalDateTime.now()
-        val chatId = 1L
-        val commands = commandsProperties().commands()
-        commands.forEach { cachedStatistics.register(it, chatId) }
-        val statistics = cachedStatistics.provide().get()
-
-        //when
-        cachedStatistics.deleteBefore(now.minusHours(2)).get()
-
-        //then
-        assertThat(cachedStatistics.provide().get()).isNotEmpty()
-        assertThat(cachedStatistics.provide().get()).isEqualTo(statistics)
-    }
-
-    @Test
-    fun `should delete statistics generated before given time when there was no registration in the meantime`() {
-        //given
-        val now = LocalDateTime.now()
         val chatId = 1L
         val commands = commandsProperties().commands()
         commands.forEach { cachedStatistics.register(it, chatId) }
 
         //when
-        cachedStatistics.deleteBefore(now.plusHours(2)).get()
+        cachedStatistics.delete().get()
 
         //then
         assertThat(cachedStatistics.provide().get()).isEmpty()

@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -23,6 +22,6 @@ class StatisticsResource {
 
     @DeleteMapping(Endpoints.STATS)
     void delete() {
-        statisticDeletion.deleteBefore(LocalDateTime.now()).get();
+        statisticDeletion.delete().get();
     }
 }

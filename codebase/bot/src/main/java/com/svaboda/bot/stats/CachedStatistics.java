@@ -23,17 +23,9 @@ class CachedStatistics implements StatisticsHandler {
     }
 
     @Override
-    public Try<Void> deleteBefore(LocalDateTime timestamp) {
-        return Try.run(() -> {
-            final var copy = new ArrayList<>(archived);
-            archived.clear();
-            copy.forEach(statistics -> {
-                if (!statistics.isBefore(timestamp)) {
-                    archived.push(statistics);
-                }
-            });
-        })
-        .onFailure(ex -> log.error("Error occurred on removing archived stats created before {}", timestamp, ex));
+    public Try<Void> delete() {
+        return Try.run(archived::clear)
+            .onFailure(ex -> log.error("Error occurred on removing statistics", ex));
     }
 
     private void registerHourlyStatistics(Command command, Long chatId) {
