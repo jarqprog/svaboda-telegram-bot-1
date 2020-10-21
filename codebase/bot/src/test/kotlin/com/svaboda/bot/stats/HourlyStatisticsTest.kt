@@ -21,7 +21,7 @@ class HourlyStatisticsTest {
         val result = HourlyStatistics.create(timestamp, command, chatId)
 
         //then
-        assertThat(result.generatedAt()).isEqualTo(expectedCreatedAt)
+        assertThat(result.dateHour()).isEqualTo(expectedCreatedAt)
         assertThat(result.uniqueChats()).isEqualTo(setOf(chatId))
         assertThat(result.commandsCalls()).isEqualTo(mapOf(Pair(command.name(), 1)))
     }

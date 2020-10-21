@@ -8,15 +8,14 @@ import static com.svaboda.utils.ArgsValidation.notEmpty;
 
 @Value
 public class Command {
-    public final static Command TOPICS_INSTANCE = new Command("/spisok_tem", "spisok_tem", null);
-    private final static String PREFIX = "/";
+    public final static Command TOPICS_INSTANCE = new Command("spisok_tem", "spisok_tem", null);
 
     String name;
     String resourceId;
     String externalLink;
 
     Command(String name, String resourceId, String externalLink) {
-        this.name = enrichWithPrefix(notEmpty(name));
+        this.name = notEmpty(name);
         this.resourceId = notEmpty(resourceId);
         this.externalLink = externalLink;
     }
@@ -27,10 +26,6 @@ public class Command {
 
     public Optional<String> externalLink() {
         return Optional.ofNullable(externalLink);
-    }
-
-    private String enrichWithPrefix(String name) {
-        return name.startsWith(PREFIX) ? name : PREFIX+name;
     }
 
 }

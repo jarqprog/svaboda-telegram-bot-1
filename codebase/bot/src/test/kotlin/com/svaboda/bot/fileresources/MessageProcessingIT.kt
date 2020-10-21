@@ -1,6 +1,7 @@
 package com.svaboda.bot.fileresources
 
 import com.svaboda.bot.bot.MessageProcessor
+import com.svaboda.bot.commands.CommandTestUtils.TELEGRAM_COMMAND_PREFIX
 import com.svaboda.bot.commands.CommandTestUtils.cyrillicCommand
 import com.svaboda.bot.commands.CommandTestUtils.topicsCommand
 import com.svaboda.bot.commands.CommandsConfiguration
@@ -54,7 +55,7 @@ class MessageProcessingIT {
         val command = topicsCommand()
         val chatId = 1L
         val sendMessage = SendMessage(chatId, topicsContent())
-        Mockito.`when`(message.text).thenReturn(command.name())
+        Mockito.`when`(message.text).thenReturn(TELEGRAM_COMMAND_PREFIX + command.name())
         Mockito.`when`(message.chatId).thenReturn(chatId)
         Mockito.`when`(update.message).thenReturn(message)
         Mockito.`when`(telegramBot.execute(sendMessage)).thenReturn(Mockito.mock(Message::class.java))
@@ -90,7 +91,7 @@ class MessageProcessingIT {
         val chatId = 1L
         val sendMessage = SendMessage(chatId, topicsContent())
         val terribleError = TelegramApiException("Boom!")
-        Mockito.`when`(message.text).thenReturn(command.name())
+        Mockito.`when`(message.text).thenReturn(TELEGRAM_COMMAND_PREFIX + command.name())
         Mockito.`when`(message.chatId).thenReturn(chatId)
         Mockito.`when`(update.message).thenReturn(message)
         Mockito.`when`(telegramBot.execute(sendMessage)).thenThrow(terribleError)
@@ -108,7 +109,7 @@ class MessageProcessingIT {
         val command = topicsCommand()
         val chatId = 1L
         val sendMessage = SendMessage(chatId, topicsContent())
-        Mockito.`when`(message.text).thenReturn(command.name())
+        Mockito.`when`(message.text).thenReturn(TELEGRAM_COMMAND_PREFIX + command.name())
         Mockito.`when`(message.chatId).thenReturn(chatId)
         Mockito.`when`(update.message).thenReturn(message)
         Mockito.`when`(telegramBot.execute(sendMessage)).thenReturn(Mockito.mock(Message::class.java))

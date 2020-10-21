@@ -1,0 +1,18 @@
+configuration:
+
+  appenders:
+    console:
+      name: CONSOLE
+      target: SYSTEM_OUT
+      patternLayout:
+        pattern: "%date{ISO8601} %-5level[%thread] %logger{0} - %msg%n"
+
+  loggers:
+    logger:
+      - name: com.svaboda
+        level: debug
+
+    root:
+      level: info
+      appenderRef:
+        ref: CONSOLE

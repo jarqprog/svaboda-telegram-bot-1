@@ -1,6 +1,7 @@
 package com.svaboda.bot.commands
 
 import com.svaboda.bot.commands.CommandTestUtils.ANY_EXTERNAL_LINK
+import com.svaboda.bot.commands.CommandTestUtils.TELEGRAM_COMMAND_PREFIX
 import com.svaboda.bot.commands.CommandTestUtils.topicsCommand
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -33,7 +34,7 @@ class CommandsProviderTest {
 
         //then
         commands.forEach {
-            assertThat(result.byName(it.name())).isEqualTo(it)
+            assertThat(result.byName(TELEGRAM_COMMAND_PREFIX + it.name())).isEqualTo(it)
         }
     }
 }

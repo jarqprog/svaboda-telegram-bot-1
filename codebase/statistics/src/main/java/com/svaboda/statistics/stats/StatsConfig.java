@@ -1,7 +1,7 @@
 package com.svaboda.statistics.stats;
 
 import com.svaboda.storage.failureinfo.FailureInfoRepository;
-import com.svaboda.storage.stats.StatsRepository;
+import com.svaboda.storage.stats.write.StatsWriteRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -29,9 +29,9 @@ class StatsConfig {
     }
 
     @Bean
-    StatsOperation statsOperation(StatsRepository statsRepository, WebClient botClient) {
+    StatsOperation statsOperation(StatsWriteRepository statsWriteRepository, WebClient botClient) {
         return new StatsTransactionalOperation(
-                statsRepository,
+                statsWriteRepository,
                 new StatsProvider(botClient),
                 new StatsDeletion(botClient)
         );
