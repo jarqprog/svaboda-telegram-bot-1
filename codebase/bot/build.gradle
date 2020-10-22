@@ -4,6 +4,8 @@ plugins {
 
 dependencies {
     implementation "org.telegram:telegrambots-spring-boot-starter:$telegrambotsVersion"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
     implementation project(":lib-diagnostic")
     implementation project(":lib-utils")
 }

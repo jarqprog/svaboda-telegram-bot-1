@@ -5,5 +5,5 @@ import io.vavr.control.Try;
 import java.util.List;
 
 public interface StatisticsProvider {
-    Try<List<HourlyStatistics>> provide();
+    Try<List<Statistics>> provide();
 }

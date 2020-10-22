@@ -11,6 +11,7 @@ import com.svaboda.bot.fileresources.FileResourcesUtils.resourceProperties
 import com.svaboda.bot.fileresources.FileResourcesUtils.topicsContent
 import com.svaboda.bot.stats.StatisticsConfiguration
 import com.svaboda.bot.stats.StatisticsHandler
+import com.svaboda.bot.stats.StatisticsProperties
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -40,8 +41,9 @@ class MessageProcessingIT {
         val resourceProvider = CachedFileResourceProvider(
                 TextFileResourceReader(resourceProperties), TextTransformer(resourceProperties, commandsProperties)
         )
+        val statisticsAggregationTime = "SECOND"
         statisticsConfiguration = StatisticsConfiguration()
-        statisticsHandler = statisticsConfiguration.statisticsHandler()
+        statisticsHandler = statisticsConfiguration.statisticsHandler(StatisticsProperties(statisticsAggregationTime))
         simpleMessageProcessor = SimpleMessageProcessor(resourceProvider, statisticsHandler, commands)
 
         message = Mockito.mock(Message::class.java)
@@ -114,6 +116,7 @@ class MessageProcessingIT {
         Mockito.`when`(update.message).thenReturn(message)
         Mockito.`when`(telegramBot.execute(sendMessage)).thenReturn(Mockito.mock(Message::class.java))
         val callsNumber = 10
+
         for (call in 1..callsNumber) { simpleMessageProcessor.processWith(update, telegramBot) }
 
         //when
@@ -121,7 +124,7 @@ class MessageProcessingIT {
 
         //then
         assertThat(result.size).isOne()
-        assertThat(result.first().commandsCalls()).isEqualTo(mapOf(Pair(command.name(), callsNumber)))
+        assertThat(result.first().commandsCalls()).isEqualTo(mapOf(command.name() to callsNumber))
         assertThat(result.first().uniqueChats()).isEqualTo(setOf(chatId))
     }
 

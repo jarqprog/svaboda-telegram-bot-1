@@ -3,6 +3,7 @@ package com.svaboda.statistics.stats;
 import com.svaboda.storage.stats.write.StatsWriteRepository;
 import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,12 @@ class StatsTransactionalOperation implements StatsOperation {
         return statsProvider.statsFrom(targetServiceUrl)
                 .map(ResponseEntity::getBody)
                 .flatMap(statsWriteRepository::upsertAll)
-                .flatMap(__ -> statsDeletion.deleteFrom(targetServiceUrl))
+                .map(StatisticsResponse::new)
+                .flatMap(statisticsResponse ->
+                    statisticsResponse.latest()
+                            .map(timestamp -> statsDeletion.deleteAt(targetServiceUrl, timestamp))
+                            .orElse(Try.of(() -> new ResponseEntity<Void>(HttpStatus.OK)))
+                )
                 .map(ResponseEntity::getBody);
     }
 }

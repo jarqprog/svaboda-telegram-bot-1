@@ -13,6 +13,8 @@ env:
       name: ${BOT_NAME}
       token: ${BOT_TOKEN}
       baseUrl: https://api.telegram.org/bot
+  statistics:
+    aggregationMode: MINUTE
   commands:
     -
       name: krok

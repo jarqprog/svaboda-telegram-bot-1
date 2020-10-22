@@ -13,6 +13,8 @@ env:
       name: any-name
       token: any-token
       baseUrl: https://localhost:8080
+  statistics:
+    aggregationMode: SECOND
   commands:
     -
       name: cyrillic

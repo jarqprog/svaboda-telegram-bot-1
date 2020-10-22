@@ -9,6 +9,7 @@ project.ext.javaVersion = 14
 project.ext.kotlinVersion = "1.4.10"
 project.ext.telegrambotsVersion = "4.9.1"
 project.ext.springbootVersion = "2.3.4.RELEASE"
+project.ext.springVersion = "5.2.9.RELEASE"
 project.ext.lombokVersion = "1.18.12"
 project.ext.vavrVersion = "0.10.2"
 project.ext.sl4jVersion = "2.13.3"

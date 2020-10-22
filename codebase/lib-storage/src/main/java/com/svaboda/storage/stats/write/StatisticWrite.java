@@ -1,11 +1,14 @@
 package com.svaboda.storage.stats.write;
 
+import com.svaboda.storage.stats.Stats;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.Document;
 import org.springframework.data.annotation.Id;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -13,11 +16,20 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StatisticWrite {
+    private static final DateTimeFormatter DATE_HOUR_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd:HH");
     final static String DATE_HOUR = "dateHour";
 
     private String dateHour;
     private Map<String,Object> commandsCalls;
     private Set<Long> uniqueChats;
+
+    static StatisticWrite from(Stats stats) {
+        return new StatisticWrite(
+                LocalDateTime.from(stats.timestamp()).format(DATE_HOUR_FORMAT),
+                new HashMap<>(stats.commandsCalls()),
+                stats.uniqueChats()
+        );
+    }
 
     CommandCalls asCommandCalls() {
         return new CommandCalls(
