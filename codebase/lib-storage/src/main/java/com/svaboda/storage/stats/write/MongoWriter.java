@@ -1,5 +1,6 @@
 package com.svaboda.storage.stats.write;
 
+import com.svaboda.storage.stats.HourlyStatistic;
 import com.svaboda.storage.stats.Stats;
 import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +18,13 @@ class MongoWriter implements StatsWriteRepository {
     @Override
     public Try<List<Stats>> upsertAll(List<Stats> statistics) {
         return Try.of(() -> {
-            statistics.forEach(stats -> upsert(StatisticWrite.from(stats)));
+            statistics.forEach(stats -> upsert(HourlyStatistic.from(stats)));
             return statistics;
         })
                 .onFailure(failure -> log.error("Error occurred on saving Statistics", failure));
     }
 
-    private void upsert(StatisticWrite statistic) {
+    private void upsert(HourlyStatistic statistic) {
         commandCallsWriter.write(statistic.asCommandCalls())
                 .peek(__ -> {
                     final var uniqueChats = statistic.asUniqueChats();

@@ -1,5 +1,6 @@
 package com.svaboda.storage.stats.write;
 
+import com.svaboda.storage.stats.UniqueChat;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -9,8 +10,8 @@ import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.Set;
 
-import static com.svaboda.storage.stats.write.StatisticWrite.DATE_HOUR;
-import static com.svaboda.storage.stats.write.UniqueChat.CHAT_ID;
+import static com.svaboda.storage.stats.StatsDb.Fields.CHAT_ID;
+import static com.svaboda.storage.stats.StatsDb.Fields.DATE_HOUR;
 
 @Slf4j
 @RequiredArgsConstructor

@@ -1,7 +1,9 @@
 package com.svaboda.storage.stats.write
 
+import com.svaboda.storage.stats.HourlyStatistic
 import com.svaboda.storage.stats.StatsUtils.ANY_COMMAND_NAME
 import com.svaboda.storage.stats.StatsUtils.ANY_DATE_HOUR
+import com.svaboda.storage.stats.UniqueChat
 import org.assertj.core.api.Assertions.assertThat
 import org.bson.Document
 import org.junit.jupiter.api.Test
@@ -14,7 +16,7 @@ class StatisticWriteTest {
         //given
         val chatId = 100L
         val commandCalls = mapOf(ANY_COMMAND_NAME to 1)
-        val statisticWrite = StatisticWrite(ANY_DATE_HOUR, commandCalls, setOf(chatId))
+        val statisticWrite = HourlyStatistic(ANY_DATE_HOUR, commandCalls, setOf(chatId))
 
         //when
         val result = statisticWrite.asCommandCalls()
@@ -28,7 +30,7 @@ class StatisticWriteTest {
     fun `should create uniqueChats`() {
         //given
         val chatIds = setOf(123L, 210L, 321L)
-        val statisticWrite = StatisticWrite(ANY_DATE_HOUR, mapOf(ANY_COMMAND_NAME to 10), chatIds)
+        val statisticWrite = HourlyStatistic(ANY_DATE_HOUR, mapOf(ANY_COMMAND_NAME to 10), chatIds)
         val expectedResult = chatIds.stream()
                 .map { chatId -> UniqueChat(chatId, ANY_DATE_HOUR) }
                 .collect(Collectors.toSet())

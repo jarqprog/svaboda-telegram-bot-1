@@ -1,5 +1,6 @@
 package com.svaboda.storage.stats.write;
 
+import com.svaboda.storage.stats.CommandCalls;
 import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +10,8 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.Optional;
 
-import static com.svaboda.storage.stats.write.StatisticWrite.DATE_HOUR;
+import static com.svaboda.storage.stats.StatsDb.Documents.COMMAND_CALLS;
+import static com.svaboda.storage.stats.StatsDb.Fields.DATE_HOUR;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -34,7 +36,9 @@ class CommandCallsWriter {
     }
 
     private Optional<CommandCalls> find(CommandCalls commandCalls) {
-        return Optional.ofNullable(mongoTemplate.findAndRemove(findByDateHourQuery(commandCalls), CommandCalls.class));
+        return Optional.ofNullable(
+                mongoTemplate.findAndRemove(findByDateHourQuery(commandCalls), CommandCalls.class, COMMAND_CALLS)
+        );
     }
 
     private Query findByDateHourQuery(CommandCalls commandCalls) {

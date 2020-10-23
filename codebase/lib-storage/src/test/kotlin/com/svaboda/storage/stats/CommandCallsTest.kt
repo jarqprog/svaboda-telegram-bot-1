@@ -1,4 +1,4 @@
-package com.svaboda.storage.stats.write
+package com.svaboda.storage.stats
 
 import com.svaboda.storage.stats.StatsUtils.ANY_COMMAND_NAME
 import com.svaboda.storage.stats.StatsUtils.ANY_DATE_HOUR
