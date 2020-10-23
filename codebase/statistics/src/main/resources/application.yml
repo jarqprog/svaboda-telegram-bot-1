@@ -5,3 +5,4 @@ env:
   servicesBaseUrls: ${SERVICES_BASE_URLS}
   db:
     url: ${DB_URL}
+    name: ${DB_NAME}

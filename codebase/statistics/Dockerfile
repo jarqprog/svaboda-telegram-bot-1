@@ -23,11 +23,13 @@ ARG _port=$_port
 ARG _intervalSec=$_intervalSec
 ARG _servicesBaseUrls=$_servicesBaseUrls
 ARG _dbUrl=$_dbUrl
+ARG _dbName=$_dbName
 
 ENV PORT=$_port
 ENV INTERVAL_SEC=$_intervalSec
 ENV SERVICES_BASE_URLS=$_servicesBaseUrls
 ENV DB_URL=$_dbUrl
+ENV DB_NAME=$_dbName
 
 EXPOSE $PORT
 

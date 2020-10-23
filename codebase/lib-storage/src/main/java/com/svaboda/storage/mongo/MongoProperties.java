@@ -11,11 +11,11 @@ import static com.svaboda.utils.ArgsValidation.notEmpty;
 @Value
 class MongoProperties {
     String url;
-    String dbName;
+    String name;
 
-    MongoProperties(String url) {
+    MongoProperties(String url, String name) {
         this.url = notEmpty(url);
-        this.dbName = "BOT_DB";//todo move to properties
+        this.name = notEmpty(name);
     }
 
 }

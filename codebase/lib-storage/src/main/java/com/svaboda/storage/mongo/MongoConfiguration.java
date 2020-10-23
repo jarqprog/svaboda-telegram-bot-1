@@ -33,7 +33,7 @@ class MongoConfiguration extends AbstractMongoClientConfiguration {
     @NotNull
     @Override
     protected String getDatabaseName() {
-        return mongoProperties.dbName();
+        return mongoProperties.name();
     }
 
     @NotNull
