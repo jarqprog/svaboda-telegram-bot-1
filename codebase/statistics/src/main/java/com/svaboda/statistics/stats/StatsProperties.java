@@ -25,7 +25,7 @@ class StatsProperties {
     StatsProperties(int intervalSec, String servicesBaseUrls) {
         this.intervalSec = positive(intervalSec);
         this.servicesUrls = Arrays.stream(notEmpty(servicesBaseUrls).split(URL_SEPARATOR))
-                .map(baseUrl -> "http://" + baseUrl + Endpoints.STATS)
+                .map(baseUrl -> "https://" + baseUrl + Endpoints.STATS)
                 .collect(Collectors.toList());
     }
 
