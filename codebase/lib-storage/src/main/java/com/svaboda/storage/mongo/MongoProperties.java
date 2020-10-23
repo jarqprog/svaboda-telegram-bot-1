@@ -15,7 +15,7 @@ class MongoProperties {
 
     MongoProperties(String url) {
         this.url = notEmpty(url);
-        this.dbName = "bot-services-test";//todo move to properties
+        this.dbName = "BOT_DB";//todo move to properties
     }
 
 }

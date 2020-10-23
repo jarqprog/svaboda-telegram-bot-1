@@ -7,3 +7,4 @@
 
 ### TBD
     add db migration (https://github.com/mongobee/mongobee ?)
+    add db name to properties
