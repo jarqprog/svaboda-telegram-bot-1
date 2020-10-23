@@ -5,3 +5,4 @@
 ### TBD:
     migrate to java 15
     alerting service
+    add parametrized http connetction timeout

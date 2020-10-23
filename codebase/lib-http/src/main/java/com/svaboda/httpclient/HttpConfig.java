@@ -27,7 +27,7 @@ class HttpConfig {
     }
 
     private HttpClient httpClient() {
-        var connectTimeoutInMillis = 1_000;
+        var connectTimeoutInMillis = 10_000;
         var httpClient = new HttpClient(new SslContextFactory.Client());
         httpClient.setConnectTimeout(connectTimeoutInMillis);
         return httpClient;
