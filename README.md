@@ -6,3 +6,6 @@
     migrate to java 15
     alerting service
     add parametrized http connetction timeout
+    
+    
+    consider using Instants instead of LocalDateTime (and UnifiedDateTime)
