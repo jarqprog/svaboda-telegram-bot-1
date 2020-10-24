@@ -7,7 +7,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.time.temporal.ChronoUnit
-import java.util.*
 
 class CachedStatisticsTest {
 
@@ -56,9 +55,8 @@ class CachedStatisticsTest {
         val chatId = 1L
         val commands = commandsProperties().commands()
         val commandsCount = mutableMapOf<Command,Int>()
-        val random = Random()
-        val maxCalls = 10
-        commands.forEach { commandsCount[it] = random.nextInt(maxCalls) }
+        val callsNumber = 3
+        commands.forEach { commandsCount[it] = callsNumber }
         commandsCount.forEach { (command, count) ->
             for(call in 1..count) { cachedStatistics.register(command, chatId) }
         }

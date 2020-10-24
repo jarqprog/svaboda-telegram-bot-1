@@ -28,14 +28,14 @@ public class CommandCalls {
         validateDateHourTheSame(other);
         other.commandCalls.forEach((key, value) -> {
             commandCalls.computeIfPresent(key, (__, cc) -> value + cc);
-            commandCalls.computeIfAbsent(key, __ -> value);
+            commandCalls.putIfAbsent(key, value);
         });
         return new CommandCalls(dateHour, new HashMap<>(commandCalls));
     }
 
     public static CommandCalls from(Entity entity) {
         final var commandCalls = new HashMap<String,Integer>();
-        entity.commandCalls.forEach((key, value) -> commandCalls.put(key, (Integer) value));
+        entity.commandCalls.forEach((key, value) -> commandCalls.putIfAbsent(key, (Integer) value));
         return new CommandCalls(entity.dateHour, commandCalls);
     }
 

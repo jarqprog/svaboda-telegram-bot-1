@@ -48,19 +48,13 @@ class MongoReader implements StatsReadRepository {
     }
 
     private List<CommandCalls> commandCallsBy(Query query) {
-        return mongoTemplate.find(
-                query,
-                CommandCalls.Entity.class
-        ).parallelStream()
+        return mongoTemplate.find(query, CommandCalls.Entity.class).stream()
                 .map(CommandCalls::from)
                 .collect(Collectors.toList());
     }
 
     private List<UniqueChat> uniqueChatsBy(Query query) {
-        return mongoTemplate.find(
-                query,
-                UniqueChat.Entity.class
-        ).parallelStream()
+        return mongoTemplate.find(query, UniqueChat.Entity.class).stream()
                 .map(UniqueChat::from)
                 .collect(Collectors.toList());
     }

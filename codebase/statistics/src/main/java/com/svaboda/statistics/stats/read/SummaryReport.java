@@ -47,14 +47,15 @@ class SummaryReport {
             final var cmdCalls = new HashMap<String,Long>();
             statsFindings.commandCalls().forEach(element ->
                 element.commandCalls().forEach((cc,callCount) -> {
-                   cmdCalls.putIfAbsent(cc, callCount.longValue());
-                   cmdCalls.computeIfPresent(cc, (__,value) -> callCount + value);
+                   cmdCalls.computeIfPresent(cc, (__,value) -> callCount.longValue() + value);
+                    cmdCalls.putIfAbsent(cc, callCount.longValue());
                 })
             );
             return new PeriodReport(
                     statsFindings.forPeriod().name(),
-                    statsFindings.commandCalls().parallelStream()
-                        .map(commandCalls -> commandCalls.commandCalls().values().stream()
+                    statsFindings.commandCalls().stream()
+                        .map(commandCalls -> commandCalls
+                                .commandCalls().values().stream()
                                     .reduce(0, Integer::sum))
                         .reduce(0, Integer::sum),
                     statsFindings.uniqueChats().size(),
