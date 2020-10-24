@@ -1,4 +1,4 @@
-package com.svaboda.statistics.stats;
+package com.svaboda.statistics.stats.write;
 
 import com.svaboda.storage.failureinfo.FailureInfoRepository;
 import com.svaboda.storage.stats.write.StatsWriteRepository;
@@ -15,7 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 @RequiredArgsConstructor
 @EnableConfigurationProperties({StatsProperties.class})
-class StatsConfiguration {
+class StatsWriteConfiguration {
 
     @Bean
     TaskScheduler taskScheduler(StatsProperties statsProperties,
@@ -54,4 +54,5 @@ class StatsConfiguration {
                                       FailureInfoRepository failureInfoRepository) {
         return new StatsProcess(targetServiceUrl, statsOperation, statsDeletion, failureInfoRepository);
     }
+
 }

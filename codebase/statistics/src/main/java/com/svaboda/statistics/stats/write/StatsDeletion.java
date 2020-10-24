@@ -1,4 +1,4 @@
-package com.svaboda.statistics.stats;
+package com.svaboda.statistics.stats.write;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;

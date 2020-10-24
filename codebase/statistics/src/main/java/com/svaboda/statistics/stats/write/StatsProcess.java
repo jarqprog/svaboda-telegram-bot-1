@@ -1,4 +1,4 @@
-package com.svaboda.statistics.stats;
+package com.svaboda.statistics.stats.write;
 
 import com.svaboda.storage.failureinfo.FailureInfo;
 import com.svaboda.storage.failureinfo.FailureInfoRepository;

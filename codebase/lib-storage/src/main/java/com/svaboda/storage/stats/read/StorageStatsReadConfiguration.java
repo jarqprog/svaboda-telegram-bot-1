@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
-class StatsReadConfiguration {
+class StorageStatsReadConfiguration {
 
     @Bean
     StatsReadRepository statsReadRepository(MongoTemplate mongoTemplate) {

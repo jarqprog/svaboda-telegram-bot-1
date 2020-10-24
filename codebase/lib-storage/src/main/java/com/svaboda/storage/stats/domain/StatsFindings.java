@@ -1,13 +1,14 @@
-package com.svaboda.storage.stats.read;
+package com.svaboda.storage.stats.domain;
 
-import com.svaboda.storage.stats.domain.CommandCalls;
-import com.svaboda.storage.stats.domain.UniqueChat;
 import lombok.Value;
 
 import java.util.List;
 
 @Value
 public class StatsFindings {
+    StatsPeriod.Period period;
+    long totalUsersCount;
+    CommandTotalSummary commandTotalSummary;
     List<CommandCalls> commandCalls;
     List<UniqueChat> uniqueChats;
 }

@@ -1,4 +1,4 @@
-package com.svaboda.statistics.stats;
+package com.svaboda.statistics.stats.write;
 
 import com.svaboda.storage.stats.write.StatsWriteRepository;
 import io.vavr.control.Try;

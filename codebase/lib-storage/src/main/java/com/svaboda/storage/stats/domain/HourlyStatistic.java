@@ -6,8 +6,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.svaboda.storage.stats.StatsDb.DATE_HOUR_FORMAT;
-
 @Value
 public class HourlyStatistic {
 
@@ -17,7 +15,7 @@ public class HourlyStatistic {
 
     public static HourlyStatistic from(StatsDto statsDto) {
         return new HourlyStatistic(
-                LocalDateTime.from(statsDto.timestamp()).format(DATE_HOUR_FORMAT),
+                LocalDateTime.from(statsDto.timestamp()).format(StatsPeriod.Period.LAST_HOUR.formatter()),
                 new HashMap<>(statsDto.commandsCalls()),
                 statsDto.uniqueChats()
         );

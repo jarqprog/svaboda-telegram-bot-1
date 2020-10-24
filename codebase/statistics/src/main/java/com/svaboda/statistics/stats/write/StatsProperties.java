@@ -1,4 +1,4 @@
-package com.svaboda.statistics.stats;
+package com.svaboda.statistics.stats.write;
 
 import com.svaboda.utils.Endpoints;
 import lombok.Value;
@@ -25,7 +25,7 @@ class StatsProperties {
     StatsProperties(int intervalSec, String servicesBaseUrls) {
         this.intervalSec = positive(intervalSec);
         this.servicesUrls = Arrays.stream(notEmpty(servicesBaseUrls).split(URL_SEPARATOR))
-                .map(baseUrl -> "https://" + baseUrl + Endpoints.STATS)
+                .map(baseUrl -> "https://" + baseUrl + Endpoints.STATS_INTERNAL)
                 .collect(Collectors.toList());
     }
 

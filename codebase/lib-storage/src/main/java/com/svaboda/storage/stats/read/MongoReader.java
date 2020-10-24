@@ -1,7 +1,6 @@
 package com.svaboda.storage.stats.read;
 
-import com.svaboda.storage.stats.domain.CommandCalls;
-import com.svaboda.storage.stats.domain.UniqueChat;
+import com.svaboda.storage.stats.domain.*;
 import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -13,20 +12,39 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static com.svaboda.storage.stats.StatsDb.DATE_MONTH_FORMAT;
 import static com.svaboda.storage.stats.StatsDb.Fields.DATE_HOUR;
 
 @RequiredArgsConstructor
 class MongoReader implements StatsReadRepository {
 
+    private static final Query FIND_ALL = new Query();
     private final MongoTemplate mongoTemplate;
 
     @Override
     public Try<StatsFindings> fromLastMonth() {
-        final var fromLastMonthQuery = fromLastMonthQuery();
+        final var period = StatsPeriod.Period.LAST_MONTH;
+        return findWith(statsPeriodQuery(period), period);
+    }
+
+    private Try<StatsFindings> findWith(Query query, StatsPeriod.Period period) {
         return Try.of(() -> new StatsFindings(
-                commandCallsBy(fromLastMonthQuery),
-                uniqueChatsBy(fromLastMonthQuery))
+                period,
+                totalUniqueUsers(),
+                totalCommandCount(),
+                commandCallsBy(query),
+                uniqueChatsBy(query))
+        );
+    }
+
+    private long totalUniqueUsers() {
+        return mongoTemplate.count(FIND_ALL, UniqueChat.Entity.class);
+    }
+
+    private CommandTotalSummary totalCommandCount() {
+        return CommandTotalSummary.from(
+                mongoTemplate.findAll(CommandCount.Entity.class).stream()
+                    .map(CommandCount::from)
+                    .collect(Collectors.toList())
         );
     }
 
@@ -48,8 +66,8 @@ class MongoReader implements StatsReadRepository {
                 .collect(Collectors.toList());
     }
 
-    private Query fromLastMonthQuery() {
-        final var yearMonth = LocalDateTime.now().format(DATE_MONTH_FORMAT);
+    private Query statsPeriodQuery(StatsPeriod.Period period) {
+        final var yearMonth = LocalDateTime.now().format(period.formatter());
         return new Query(Criteria.where(DATE_HOUR).regex(Pattern.compile(yearMonth)));
     }
 

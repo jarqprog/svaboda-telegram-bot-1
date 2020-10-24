@@ -20,12 +20,12 @@ class StatisticsResource {
     private final StatisticsProvider statisticsProvider;
     private final StatisticsDeletion statisticsDeletion;
 
-    @GetMapping(Endpoints.STATS)
+    @GetMapping(Endpoints.STATS_INTERNAL)
     List<Statistics> statistics() {
         return statisticsProvider.provide().get();
     }
 
-    @DeleteMapping(Endpoints.STATS)
+    @DeleteMapping(Endpoints.STATS_INTERNAL)
     void delete(@RequestParam(value = "at") @DateTimeFormat(pattern = DATE_TIME_FORMAT) LocalDateTime at) {
         statisticsDeletion.deleteAt(at).get();
     }

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
-class StatsWriteConfiguration {
+class StorageStatsWriteConfiguration {
 
     @Bean
     StatsWriteRepository statsWriteRepository(MongoTemplate mongo) {
