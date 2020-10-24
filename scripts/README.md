@@ -22,8 +22,11 @@ Heroku application name and process type [web or worker](https://devcenter.herok
 must be set (service name - see above - also):
 ```
 export HEROKU_APP_NAME=bot-monitoring1
-export PROCESS_TYPE=web
+export PROCESS_TYPE=worker
 ```
+
+`worker` is valid option when service is not exposing http endpoints
+
 Before any action one need to login: `heroku login`.
 
 To build and push image: `./heroku_build.sh`
