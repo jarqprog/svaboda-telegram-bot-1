@@ -24,8 +24,8 @@ public class Statistics {
     }
 
     public void register(Command command, long chatId) {
+        commandsCalls.putIfAbsent(command.name(), 0);
         commandsCalls.computeIfPresent(command.name(), (__, value) -> value + 1);
-        commandsCalls.putIfAbsent(command.name(), 1);
         uniqueChats.add(chatId);
     }
 }

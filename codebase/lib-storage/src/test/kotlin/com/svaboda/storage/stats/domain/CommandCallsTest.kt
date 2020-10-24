@@ -31,6 +31,23 @@ class CommandCallsTest {
     }
 
     @Test
+    fun `should merge with other`() {
+        //given
+        val commandCall = CommandCalls(ANY_DATE_HOUR, mapOf(ANY_OTHER_COMMAND_NAME to 1))
+
+        val other = CommandCalls(ANY_DATE_HOUR, mapOf(
+                ANY_COMMAND_NAME to 10, ANY_OTHER_COMMAND_NAME to 2)
+        )
+
+        //when
+        val result = commandCall.merge(other)
+
+        //then
+        assertThat(result.commandCalls()[ANY_COMMAND_NAME]).isEqualTo(10)
+        assertThat(result.commandCalls()[ANY_OTHER_COMMAND_NAME]).isEqualTo(3)
+    }
+
+    @Test
     fun `should throw exception on merge when DateHour is not the same`() {
         //given
         val commandCall = CommandCalls(ANY_DATE_HOUR, mapOf(ANY_COMMAND_NAME to 1))

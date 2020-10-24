@@ -98,8 +98,8 @@ class CachedStatisticsTest {
         chatIds.forEach { chatId ->
             for(call in 1..10) {
                 cachedStatistics.register(command, chatId)
+                expectedCommandCallsCount.computeIfAbsent(command.name()) { 0 }
                 expectedCommandCallsCount.computeIfPresent(command.name()) { _, count -> count + 1 }
-                expectedCommandCallsCount.computeIfAbsent(command.name()) { 1 }
             }
         }
         val expectedUniqueChatsSize = 3

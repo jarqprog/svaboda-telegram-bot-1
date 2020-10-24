@@ -47,8 +47,8 @@ class SummaryReport {
             final var cmdCalls = new HashMap<String,Long>();
             statsFindings.commandCalls().forEach(element ->
                 element.commandCalls().forEach((cc,callCount) -> {
-                   cmdCalls.computeIfPresent(cc, (__,value) -> callCount.longValue() + value);
-                    cmdCalls.putIfAbsent(cc, callCount.longValue());
+                    cmdCalls.putIfAbsent(cc, 0L);
+                    cmdCalls.computeIfPresent(cc, (__,value) -> callCount.longValue() + value);
                 })
             );
             return new PeriodReport(

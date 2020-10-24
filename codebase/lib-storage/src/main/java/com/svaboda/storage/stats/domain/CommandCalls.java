@@ -26,11 +26,13 @@ public class CommandCalls {
 
     public CommandCalls merge(CommandCalls other) {
         validateDateHourTheSame(other);
+        final var merged = new HashMap<>(commandCalls);
+
         other.commandCalls.forEach((key, value) -> {
-            commandCalls.computeIfPresent(key, (__, cc) -> value + cc);
-            commandCalls.putIfAbsent(key, value);
+            merged.putIfAbsent(key, 0);
+            merged.computeIfPresent(key, (__, cc) -> value + cc);
         });
-        return new CommandCalls(dateHour, new HashMap<>(commandCalls));
+        return new CommandCalls(dateHour, new HashMap<>(merged));
     }
 
     public static CommandCalls from(Entity entity) {

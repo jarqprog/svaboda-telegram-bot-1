@@ -52,7 +52,7 @@ class CommandCountWriter {
         );
         toUpsert.forEach(hourlyStatistic ->
                 hourlyStatistic.commandsCalls().forEach((command,callCount) -> {
-                            toMerge.putIfAbsent(command, callCount.longValue());
+                            toMerge.putIfAbsent(command, 0L);
                             toMerge.computeIfPresent(command, (__,cc) -> callCount + cc);
                         }
                 )
