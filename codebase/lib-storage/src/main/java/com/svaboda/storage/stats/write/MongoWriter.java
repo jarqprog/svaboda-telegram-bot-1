@@ -1,7 +1,7 @@
 package com.svaboda.storage.stats.write;
 
 import com.svaboda.storage.stats.HourlyStatistic;
-import com.svaboda.storage.stats.Stats;
+import com.svaboda.storage.stats.StatsDto;
 import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ class MongoWriter implements StatsWriteRepository {
     private final UniqueChatWriter uniqueChatWriter;
 
     @Override
-    public Try<List<Stats>> upsertAll(List<Stats> statistics) {
+    public Try<List<StatsDto>> upsertAll(List<StatsDto> statistics) {
         return Try.of(() -> {
             statistics.forEach(stats -> upsert(HourlyStatistic.from(stats)));
             return statistics;

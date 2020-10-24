@@ -1,10 +1,10 @@
 package com.svaboda.storage.stats.write;
 
-import com.svaboda.storage.stats.Stats;
+import com.svaboda.storage.stats.StatsDto;
 import io.vavr.control.Try;
 
 import java.util.List;
 
 public interface StatsWriteRepository {
-    Try<List<Stats>> upsertAll(List<Stats> statistics);
+    Try<List<StatsDto>> upsertAll(List<StatsDto> statistics);
 }

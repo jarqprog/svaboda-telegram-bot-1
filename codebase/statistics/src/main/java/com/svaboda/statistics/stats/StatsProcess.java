@@ -11,10 +11,12 @@ class StatsProcess {
 
     private final String serviceUrl;
     private final StatsOperation statsOperation;
+    private final StatsDeletion statsDeletion;
     private final FailureInfoRepository failureInfoRepository;
 
     void process() {
         statsOperation.process(serviceUrl)
+                .peek(this::deleteProcessed)
                 .peek(stats -> log.info("Success on processing statistics from {}", serviceUrl))
                 .onFailure(this::handleFailure);
     }
@@ -27,4 +29,11 @@ class StatsProcess {
                 .onFailure(ex -> log.error("Error occurred on handling failure", ex));
     }
 
+    private void deleteProcessed(StatsProcessResult statsProcessResult) {
+        statsProcessResult.latest()
+                .peek(optionalTimestamp -> optionalTimestamp
+                    .ifPresent(timestamp -> statsDeletion.deleteAt(serviceUrl, timestamp))
+                )
+                .get();
+    }
 }

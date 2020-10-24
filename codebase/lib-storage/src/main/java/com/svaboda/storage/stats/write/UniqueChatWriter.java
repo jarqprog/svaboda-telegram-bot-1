@@ -20,7 +20,7 @@ class UniqueChatWriter {
     private final MongoTemplate mongoTemplate;
 
     long write(Set<UniqueChat> uniqueChats) {
-        final var updated = uniqueChats.parallelStream()
+        final var updated = uniqueChats.stream()
                 .map(this::upsertUniqueChat)
                 .reduce(0L, Long::sum);
         return uniqueChats.size() - updated;
@@ -32,7 +32,7 @@ class UniqueChatWriter {
                 new Update()
                         .setOnInsert(CHAT_ID, uniqueChat.chatId())
                         .setOnInsert(DATE_HOUR, uniqueChat.dateHour()),
-                UniqueChat.class
+                UniqueChat.Entity.class
         ).getMatchedCount();
     }
 }

@@ -1,7 +1,6 @@
 package com.svaboda.storage.stats;
 
 import lombok.Value;
-import org.bson.Document;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -13,21 +12,21 @@ import static com.svaboda.storage.stats.StatsDb.DATE_HOUR_FORMAT;
 public class HourlyStatistic {
 
     String dateHour;
-    Map<String,Object> commandsCalls;
+    Map<String,Integer> commandsCalls;
     Set<Long> uniqueChats;
 
-    public static HourlyStatistic from(Stats stats) {
+    public static HourlyStatistic from(StatsDto statsDto) {
         return new HourlyStatistic(
-                LocalDateTime.from(stats.timestamp()).format(DATE_HOUR_FORMAT),
-                new HashMap<>(stats.commandsCalls()),
-                stats.uniqueChats()
+                LocalDateTime.from(statsDto.timestamp()).format(DATE_HOUR_FORMAT),
+                new HashMap<>(statsDto.commandsCalls()),
+                statsDto.uniqueChats()
         );
     }
 
     public CommandCalls asCommandCalls() {
         return new CommandCalls(
                 this.dateHour(),
-                new Document(commandsCalls)
+                new HashMap<>(commandsCalls)
         );
     }
 

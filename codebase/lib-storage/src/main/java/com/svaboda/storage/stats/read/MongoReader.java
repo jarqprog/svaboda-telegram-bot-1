@@ -11,10 +11,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static com.svaboda.storage.stats.StatsDb.DATE_MONTH_FORMAT;
-import static com.svaboda.storage.stats.StatsDb.Documents.COMMAND_CALLS;
-import static com.svaboda.storage.stats.StatsDb.Documents.UNIQUE_CHATS;
 import static com.svaboda.storage.stats.StatsDb.Fields.DATE_HOUR;
 
 @RequiredArgsConstructor
@@ -34,17 +33,19 @@ class MongoReader implements StatsReadRepository {
     private List<CommandCalls> commandCallsBy(Query query) {
         return mongoTemplate.find(
                 query,
-                CommandCalls.class,
-                COMMAND_CALLS
-        );
+                CommandCalls.Entity.class
+        ).parallelStream()
+                .map(CommandCalls::from)
+                .collect(Collectors.toList());
     }
 
     private List<UniqueChat> uniqueChatsBy(Query query) {
         return mongoTemplate.find(
                 query,
-                UniqueChat.class,
-                UNIQUE_CHATS
-        );
+                UniqueChat.Entity.class
+        ).parallelStream()
+                .map(UniqueChat::from)
+                .collect(Collectors.toList());
     }
 
     private Query fromLastMonthQuery() {

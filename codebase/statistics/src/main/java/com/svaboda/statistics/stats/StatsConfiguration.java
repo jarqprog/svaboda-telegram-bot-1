@@ -15,35 +15,33 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 @RequiredArgsConstructor
 @EnableConfigurationProperties({StatsProperties.class})
-class StatsConfig {
+class StatsConfiguration {
 
     @Bean
     TaskScheduler taskScheduler(StatsProperties statsProperties,
                                 StatsOperation statsOperation,
+                                WebClient botClient,
                                 FailureInfoRepository failureInfoRepository) {
         var scheduler = new ThreadPoolTaskScheduler();
         scheduler.setPoolSize(statsProperties.servicesUrls().size());
         scheduler.initialize();
-        schedule(scheduler, statsProperties, statsOperation, failureInfoRepository);
+        schedule(scheduler, statsProperties, statsOperation, new StatsDeletion(botClient), failureInfoRepository);
         return scheduler;
     }
 
     @Bean
     StatsOperation statsOperation(StatsWriteRepository statsWriteRepository, WebClient botClient) {
-        return new StatsTransactionalOperation(
-                statsWriteRepository,
-                new StatsProvider(botClient),
-                new StatsDeletion(botClient)
-        );
+        return new StatsTransactionalOperation(statsWriteRepository, new StatsProvider(botClient));
     }
 
     private void schedule(ThreadPoolTaskScheduler scheduler,
                           StatsProperties statsProperties,
                           StatsOperation statsOperation,
+                          StatsDeletion statsDeletion,
                           FailureInfoRepository failureInfoRepository) {
         statsProperties.servicesUrls().forEach(targetServiceUrl -> {
                     log.info("Scheduling stats process for {}", targetServiceUrl);
-                    final var stats = statsProcess(targetServiceUrl, statsOperation, failureInfoRepository);
+                    final var stats = statsProcess(targetServiceUrl, statsOperation, statsDeletion, failureInfoRepository);
                     scheduler.scheduleWithFixedDelay(stats::process, statsProperties.intervalSec());
                     log.info("stats process for {} scheduled", targetServiceUrl);
                 }
@@ -52,7 +50,8 @@ class StatsConfig {
 
     private StatsProcess statsProcess(String targetServiceUrl,
                                       StatsOperation statsOperation,
+                                      StatsDeletion statsDeletion,
                                       FailureInfoRepository failureInfoRepository) {
-        return new StatsProcess(targetServiceUrl, statsOperation, failureInfoRepository);
+        return new StatsProcess(targetServiceUrl, statsOperation, statsDeletion, failureInfoRepository);
     }
 }

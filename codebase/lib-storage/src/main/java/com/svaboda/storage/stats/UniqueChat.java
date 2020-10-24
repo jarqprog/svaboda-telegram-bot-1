@@ -2,26 +2,36 @@ package com.svaboda.storage.stats;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Value;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
-@AllArgsConstructor
+import static com.svaboda.utils.ArgsValidation.notEmpty;
+import static com.svaboda.utils.ArgsValidation.positive;
+
+@Value
 public class UniqueChat {
 
-    @Id
-    private long chatId;
-    private String dateHour;
+    long chatId;
+    String dateHour;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UniqueChat)) return false;
-        UniqueChat that = (UniqueChat) o;
-        return chatId == that.chatId;
+    public UniqueChat(long chatId, String dateHour) {
+        this.chatId = positive(chatId);
+        this.dateHour = notEmpty(dateHour);
     }
 
-    @Override
-    public int hashCode() {
-        return (int) (chatId ^ (chatId >>> 32));
+    public static UniqueChat from(UniqueChat.Entity entity) {
+        return new UniqueChat(entity.chatId, entity.dateHour);
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Document("uniqueChat")
+    public static class Entity {
+        @Id
+        private long chatId;
+        private String dateHour;
     }
 }

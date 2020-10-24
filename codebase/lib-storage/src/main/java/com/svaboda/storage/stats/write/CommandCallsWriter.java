@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.Optional;
 
-import static com.svaboda.storage.stats.StatsDb.Documents.COMMAND_CALLS;
 import static com.svaboda.storage.stats.StatsDb.Fields.DATE_HOUR;
 
 @Slf4j
@@ -26,8 +25,10 @@ class CommandCallsWriter {
     private Try<Void> upsert(CommandCalls commandCalls) {
         return Try.run(() -> {
                     final var saved = find(commandCalls)
+                            .map(CommandCalls::from)
                             .map(commandCalls::merge)
                             .or(() -> Optional.of(commandCalls))
+                            .map(CommandCalls::entity)
                             .map(mongoTemplate::insert)
                             .get();
                     log.info("Saved CommandCalls with DateHour={}", saved.dateHour());
@@ -35,9 +36,12 @@ class CommandCallsWriter {
         );
     }
 
-    private Optional<CommandCalls> find(CommandCalls commandCalls) {
+    private Optional<CommandCalls.Entity> find(CommandCalls commandCalls) {
         return Optional.ofNullable(
-                mongoTemplate.findAndRemove(findByDateHourQuery(commandCalls), CommandCalls.class, COMMAND_CALLS)
+                mongoTemplate.findAndRemove(
+                        findByDateHourQuery(commandCalls),
+                        CommandCalls.Entity.class
+                )
         );
     }
 
