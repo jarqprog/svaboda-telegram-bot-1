@@ -1,6 +1,6 @@
 package com.svaboda.storage.stats.write;
 
-import com.svaboda.storage.stats.CommandCalls;
+import com.svaboda.storage.stats.domain.CommandCalls;
 import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

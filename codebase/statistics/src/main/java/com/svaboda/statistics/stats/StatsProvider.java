@@ -1,6 +1,6 @@
 package com.svaboda.statistics.stats;
 
-import com.svaboda.storage.stats.StatsDto;
+import com.svaboda.storage.stats.domain.StatsDto;
 import io.vavr.control.Try;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
@@ -23,4 +23,5 @@ class StatsProvider {
                 .block()
         );
     }
+
 }

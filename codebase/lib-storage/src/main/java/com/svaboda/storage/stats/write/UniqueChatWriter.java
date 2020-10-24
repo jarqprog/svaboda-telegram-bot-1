@@ -1,6 +1,6 @@
 package com.svaboda.storage.stats.write;
 
-import com.svaboda.storage.stats.UniqueChat;
+import com.svaboda.storage.stats.domain.UniqueChat;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -35,4 +35,5 @@ class UniqueChatWriter {
                 UniqueChat.Entity.class
         ).getMatchedCount();
     }
+
 }

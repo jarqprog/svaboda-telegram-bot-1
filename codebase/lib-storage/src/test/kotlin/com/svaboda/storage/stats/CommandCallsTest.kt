@@ -4,6 +4,7 @@ import com.svaboda.storage.stats.StatsUtils.ANY_COMMAND_NAME
 import com.svaboda.storage.stats.StatsUtils.ANY_DATE_HOUR
 import com.svaboda.storage.stats.StatsUtils.ANY_OTHER_COMMAND_NAME
 import com.svaboda.storage.stats.StatsUtils.ANY_OTHER_DATE_HOUR
+import com.svaboda.storage.stats.domain.CommandCalls
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

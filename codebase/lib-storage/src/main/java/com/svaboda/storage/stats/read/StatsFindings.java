@@ -1,7 +1,7 @@
 package com.svaboda.storage.stats.read;
 
-import com.svaboda.storage.stats.CommandCalls;
-import com.svaboda.storage.stats.UniqueChat;
+import com.svaboda.storage.stats.domain.CommandCalls;
+import com.svaboda.storage.stats.domain.UniqueChat;
 import lombok.Value;
 
 import java.util.List;

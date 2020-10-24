@@ -1,4 +1,4 @@
-package com.svaboda.storage.stats;
+package com.svaboda.storage.stats.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,4 +34,5 @@ public class UniqueChat {
         private long chatId;
         private String dateHour;
     }
+
 }

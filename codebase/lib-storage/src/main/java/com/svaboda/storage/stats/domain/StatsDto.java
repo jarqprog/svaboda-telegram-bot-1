@@ -1,4 +1,4 @@
-package com.svaboda.storage.stats;
+package com.svaboda.storage.stats.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

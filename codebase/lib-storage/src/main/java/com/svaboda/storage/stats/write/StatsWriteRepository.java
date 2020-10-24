@@ -1,6 +1,6 @@
 package com.svaboda.storage.stats.write;
 
-import com.svaboda.storage.stats.StatsDto;
+import com.svaboda.storage.stats.domain.StatsDto;
 import io.vavr.control.Try;
 
 import java.util.List;

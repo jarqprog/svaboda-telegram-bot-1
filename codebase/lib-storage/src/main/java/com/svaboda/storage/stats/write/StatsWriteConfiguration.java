@@ -8,8 +8,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 class StatsWriteConfiguration {
 
     @Bean
-    StatsWriteRepository statsWriteRepository(MongoTemplate mongoTemplate) {
-        return new MongoWriter(new CommandCallsWriter(mongoTemplate), new UniqueChatWriter(mongoTemplate));
+    StatsWriteRepository statsWriteRepository(MongoTemplate mongo) {
+        return new MongoWriter(new CommandCountWriter(mongo), new CommandCallsWriter(mongo), new UniqueChatWriter(mongo));
     }
 
 }

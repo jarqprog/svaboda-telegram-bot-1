@@ -1,9 +1,9 @@
 package com.svaboda.storage.stats.write
 
-import com.svaboda.storage.stats.HourlyStatistic
+import com.svaboda.storage.stats.domain.HourlyStatistic
 import com.svaboda.storage.stats.StatsUtils.ANY_COMMAND_NAME
 import com.svaboda.storage.stats.StatsUtils.ANY_DATE_HOUR
-import com.svaboda.storage.stats.UniqueChat
+import com.svaboda.storage.stats.domain.UniqueChat
 import org.assertj.core.api.Assertions.assertThat
 import org.bson.Document
 import org.junit.jupiter.api.Test
@@ -41,6 +41,5 @@ class StatisticWriteTest {
         //then
         assertThat(result).isEqualTo(expectedResult)
     }
-
 
 }
