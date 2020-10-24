@@ -1,6 +1,7 @@
 package com.svaboda.bot.stats;
 
 import com.svaboda.bot.commands.Command;
+import com.svaboda.utils.UnifiedDateTime;
 import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,7 @@ class CachedStatistics implements StatisticsHandler {
     }
 
     private void registerStatistics(Command command, Long chatId) {
-        final var now = LocalDateTime.now();
+        final var now = UnifiedDateTime.now();
         if (inAggregation.isEmpty()) {
             inAggregation.push(Statistics.create(now, command, chatId));
         } else {

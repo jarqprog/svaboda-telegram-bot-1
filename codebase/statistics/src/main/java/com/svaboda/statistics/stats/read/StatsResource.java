@@ -11,8 +11,9 @@ class StatsResource {
 
     private final StatsReportProvider statsReportProvider;
 
-    @GetMapping(Endpoints.STATS_MONTH)
+    @GetMapping(value = Endpoints.STATS_MONTH, produces = "text/plain")
     String monthlyReport() {
-        return statsReportProvider.monthly();
+        return statsReportProvider.monthly()
+                .get();
     }
 }

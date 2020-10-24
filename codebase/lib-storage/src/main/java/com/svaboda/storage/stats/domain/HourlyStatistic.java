@@ -2,7 +2,6 @@ package com.svaboda.storage.stats.domain;
 
 import lombok.Value;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -15,7 +14,7 @@ public class HourlyStatistic {
 
     public static HourlyStatistic from(StatsDto statsDto) {
         return new HourlyStatistic(
-                LocalDateTime.from(statsDto.timestamp()).format(StatsPeriod.Period.LAST_HOUR.formatter()),
+                statsDto.timestamp().format(StatsPeriod.Period.LAST_HOUR.formatter()),
                 new HashMap<>(statsDto.commandsCalls()),
                 statsDto.uniqueChats()
         );
@@ -33,4 +32,5 @@ public class HourlyStatistic {
                 .map(chatId -> new UniqueChat(chatId, dateHour))
                 .collect(Collectors.toSet());
     }
+
 }

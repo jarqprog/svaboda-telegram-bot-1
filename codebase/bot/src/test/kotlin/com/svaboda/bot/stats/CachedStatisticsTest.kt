@@ -2,11 +2,12 @@ package com.svaboda.bot.stats
 
 import com.svaboda.bot.commands.Command
 import com.svaboda.bot.commands.CommandTestUtils.commandsProperties
+import com.svaboda.utils.UnifiedDateTime.now
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
+import java.util.*
 
 class CachedStatisticsTest {
 
@@ -51,28 +52,28 @@ class CachedStatisticsTest {
 
     @Test //todo
     fun `should return proper statistics when there were multiple calls against commands`() {
-//        //given
-//        val chatId = 1L
-//        val commands = commandsProperties().commands()
-//        val commandsCount = mutableMapOf<Command,Int>()
-//        val random = Random()
-//        val maxCalls = 10
-//        commands.forEach { commandsCount[it] = random.nextInt(maxCalls) }
-//        commandsCount.forEach { (command, count) ->
-//            for(call in 1..count) { cachedStatistics.register(command, chatId) }
-//        }
-//
-//        //when
-//        val result = cachedStatistics.provide().get()
-//
-//        //then
-//        assertThat(result.size).isOne()
-//        val hourlyStatistics = result.first()
-//        assertThat(hourlyStatistics.uniqueChats()).isEqualTo(setOf(chatId))
-//        commandsCount.forEach { (command, count) ->
-//            assertThat(hourlyStatistics.commandsCalls().containsKey(command.name())).isTrue()
-//            assertThat(hourlyStatistics.commandsCalls()[command.name()]).isEqualTo(count)
-//        }
+        //given
+        val chatId = 1L
+        val commands = commandsProperties().commands()
+        val commandsCount = mutableMapOf<Command,Int>()
+        val random = Random()
+        val maxCalls = 10
+        commands.forEach { commandsCount[it] = random.nextInt(maxCalls) }
+        commandsCount.forEach { (command, count) ->
+            for(call in 1..count) { cachedStatistics.register(command, chatId) }
+        }
+
+        //when
+        val result = cachedStatistics.provide().get()
+
+        //then
+        assertThat(result.size).isOne()
+        val hourlyStatistics = result.first()
+        assertThat(hourlyStatistics.uniqueChats()).isEqualTo(setOf(chatId))
+        commandsCount.forEach { (command, count) ->
+            assertThat(hourlyStatistics.commandsCalls().containsKey(command.name())).isTrue()
+            assertThat(hourlyStatistics.commandsCalls()[command.name()]).isEqualTo(count)
+        }
     }
 
     @Test
@@ -125,7 +126,7 @@ class CachedStatisticsTest {
         consumeStats()
 
         //when
-        cachedStatistics.deleteAt(LocalDateTime.now().minusSeconds(1)).get()
+        cachedStatistics.deleteAt(now().minusSeconds(1)).get()
 
         //then
         assertThat(cachedStatistics.provide().get()).isNotEmpty()
@@ -140,7 +141,7 @@ class CachedStatisticsTest {
         consumeStats()
 
         //when
-        cachedStatistics.deleteAt(LocalDateTime.now().plusSeconds(1)).get()
+        cachedStatistics.deleteAt(now().plusSeconds(1)).get()
 
         //then
         assertThat(cachedStatistics.provide().get()).isEmpty()

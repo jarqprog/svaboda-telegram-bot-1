@@ -2,36 +2,38 @@ package com.svaboda.statistics.stats.read;
 
 import com.svaboda.storage.stats.domain.StatsFindings;
 import com.svaboda.storage.stats.domain.StatsPeriod;
+import com.svaboda.utils.UnifiedDateTime;
 import lombok.Value;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-class StatsReportFactory {
+@Value
+class SummaryReport {
 
-    private static final String MONTHLY = "Monthly report";
+    private static final String TITLE = "Summary Report";
 
-    SummaryReport monthlyFrom(StatsFindings statsFindings) {
-        final var monthlyReport = PeriodReport.monthly(statsFindings);
+    String title = TITLE;
+    String timeInfo = UnifiedDateTime.INFO;
+    String generatedAt = UnifiedDateTime.now().toString();
+    long totalCalls;
+    long uniqueUsersCount;
+    Map<String,Long> totalCommandCalls;
+    Map<StatsPeriod.Period,PeriodReport> periodReports;
+
+    static SummaryReport forPeriods(List<StatsPeriod.Period> periods, StatsFindings statsFindings) {
+        final var periodReports = new HashMap<StatsPeriod.Period,PeriodReport>(periods.size());
+        periods.forEach(period -> {
+            final var filteredStatsFinding = statsFindings.filterBy(period);
+            periodReports.putIfAbsent(period, PeriodReport.from(filteredStatsFinding));
+        });
         return new SummaryReport(
-                MONTHLY,
-                LocalDateTime.now().toString(),
                 statsFindings.commandTotalSummary().totalCalls(),
                 statsFindings.totalUsersCount(),
                 statsFindings.commandTotalSummary().commandCalls(),
-                Map.of(statsFindings.period(), monthlyReport)
+                periodReports
         );
-    }
-
-    @Value
-    private static class SummaryReport {
-        String title;
-        String generatedAt;
-        long totalCalls;
-        long uniqueUsersCount;
-        Map<String,Long> totalCommandCalls;
-        Map<StatsPeriod.Period,PeriodReport> periodReports;
     }
 
     @Value
@@ -41,7 +43,7 @@ class StatsReportFactory {
         long uniqueUsersCount;
         Map<String,Long> commandCalls;
 
-        private static PeriodReport monthly(StatsFindings statsFindings) {
+        private static PeriodReport from(StatsFindings statsFindings) {
             final var cmdCalls = new HashMap<String,Long>();
             statsFindings.commandCalls().forEach(element ->
                 element.commandCalls().forEach((cc,callCount) -> {
@@ -50,7 +52,7 @@ class StatsReportFactory {
                 })
             );
             return new PeriodReport(
-                    "LAST " + statsFindings.period().name(),
+                    statsFindings.forPeriod().name(),
                     statsFindings.commandCalls().parallelStream()
                         .map(commandCalls -> commandCalls.commandCalls().values().stream()
                                     .reduce(0, Integer::sum))

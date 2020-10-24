@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -22,7 +21,7 @@ class MongoReader implements StatsReadRepository {
 
     @Override
     public Try<StatsFindings> fromLastMonth() {
-        final var period = StatsPeriod.Period.LAST_MONTH;
+        final var period = StatsPeriod.Period.CURRENT_MONTH;
         return findWith(statsPeriodQuery(period), period);
     }
 
@@ -67,8 +66,7 @@ class MongoReader implements StatsReadRepository {
     }
 
     private Query statsPeriodQuery(StatsPeriod.Period period) {
-        final var yearMonth = LocalDateTime.now().format(period.formatter());
-        return new Query(Criteria.where(DATE_HOUR).regex(Pattern.compile(yearMonth)));
+        return new Query(Criteria.where(DATE_HOUR).regex(Pattern.compile(period.searchFilter())));
     }
 
 }
