@@ -23,7 +23,7 @@ class StatsReportProvider {
     private final StatsReadRepository statsReadRepository;
 
     Try<String> monthly() {
-        final var periodsToBeIncluded = List.of(LAST_HOUR, TODAY, CURRENT_MONTH);
+        final var periodsToBeIncluded = List.of(CURRENT_MONTH, PREVIOUS_HOUR, TODAY, CURRENT_MONTH);
         return statsReadRepository.fromLastMonth()
                 .map(findings -> SummaryReport.forPeriods(periodsToBeIncluded, findings))
                 .map(SummaryReportPrinter::print)

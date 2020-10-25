@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static com.svaboda.storage.stats.StatsDb.Fields.DATE_HOUR;
@@ -26,7 +25,7 @@ class MongoReader implements StatsReadRepository {
     }
 
     private Try<StatsFindings> findWith(Query query, StatsPeriod.Period period) {
-        return Try.of(() -> new StatsFindings(
+        return Try.of(() -> StatsFindings.createWith(
                 period,
                 totalUniqueUsers(),
                 totalCommandCount(),
@@ -60,7 +59,7 @@ class MongoReader implements StatsReadRepository {
     }
 
     private Query statsPeriodQuery(StatsPeriod.Period period) {
-        return new Query(Criteria.where(DATE_HOUR).regex(Pattern.compile(period.searchFilter())));
+        return new Query(Criteria.where(DATE_HOUR).regex(period.searchRegex()));
     }
 
 }

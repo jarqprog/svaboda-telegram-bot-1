@@ -13,17 +13,38 @@ public class StatsFindings {
     List<CommandCalls> commandCalls;
     List<UniqueChat> uniqueChats;
 
-    public StatsFindings filterBy(StatsPeriod.Period period) {
+    private StatsFindings(StatsPeriod.Period forPeriod, long totalUsersCount, CommandTotalSummary commandTotalSummary,
+                          List<CommandCalls> commandCalls, List<UniqueChat> uniqueChats) {
+        this.forPeriod = forPeriod;
+        this.totalUsersCount = totalUsersCount;
+        this.commandTotalSummary = commandTotalSummary;
+        this.commandCalls = commandCalls;
+        this.uniqueChats = uniqueChats;
+    }
+
+    public static StatsFindings createWith(StatsPeriod.Period forPeriod, long totalUsersCount,
+                                           CommandTotalSummary commandTotalSummary, List<CommandCalls> commandCalls,
+                                           List<UniqueChat> uniqueChats) {
         return new StatsFindings(
-                period,
+                forPeriod,
                 totalUsersCount,
                 commandTotalSummary,
                 commandCalls.stream()
-                        .filter(cmdCall -> cmdCall.dateHour().startsWith(period.searchFilter()))
+                        .filter(cmdCall -> forPeriod.matches(cmdCall.dateHour()))
                         .collect(Collectors.toList()),
                 uniqueChats.stream()
-                        .filter(uniqueChat -> uniqueChat.dateHour().startsWith(period.searchFilter()))
+                        .filter(uniqueChat -> forPeriod.matches(uniqueChat.dateHour()))
                         .collect(Collectors.toList())
+        );
+    }
+
+    public StatsFindings filterBy(StatsPeriod.Period period) {
+        return createWith(
+                period,
+                totalUsersCount,
+                commandTotalSummary,
+                commandCalls,
+                uniqueChats
         );
     }
 }

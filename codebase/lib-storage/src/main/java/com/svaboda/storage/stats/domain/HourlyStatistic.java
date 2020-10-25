@@ -14,7 +14,7 @@ public class HourlyStatistic {
 
     public static HourlyStatistic from(StatsDto statsDto) {
         return new HourlyStatistic(
-                statsDto.timestamp().format(StatsPeriod.Period.LAST_HOUR.formatter()),
+                StatsPeriod.hourFormat(statsDto.timestamp()),
                 new HashMap<>(statsDto.commandsCalls()),
                 statsDto.uniqueChats()
         );
