@@ -2,8 +2,7 @@ package com.svaboda.storage.stats.domain
 
 import com.svaboda.storage.stats.StatsUtils.ANY_COMMAND_NAME
 import com.svaboda.storage.stats.StatsUtils.ANY_OTHER_COMMAND_NAME
-import com.svaboda.storage.stats.domain.StatsPeriod.hourFormat
-import com.svaboda.utils.UnifiedDateTime
+import com.svaboda.utils.TimePeriod.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -18,23 +17,23 @@ class StatsFindingTest {
     @Test
     fun `should create findings containing last month results with totals summary`() {
         //given
-        val period = StatsPeriod.Period.CURRENT_MONTH
-        val now = hourFormat(UnifiedDateTime.now())
-        val twoMonthsAgo = hourFormat(UnifiedDateTime.now().minusMonths(2))
+        val period = Period.CURRENT_MONTH
+        val now = hourFormatNow()
+        val fiveWeeksAgo = hourFormatNowMinusSec(5*7*24*60*60)
         val currentCommandCall = CommandCalls(now, mapOf(
                 ANY_COMMAND_NAME to 3, ANY_OTHER_COMMAND_NAME to 2)
         )
-        val commandCallFromTwoMonthAgo = CommandCalls(twoMonthsAgo, mapOf(
+        val commandCallFromFiveWeeksAgo = CommandCalls(fiveWeeksAgo, mapOf(
                 ANY_COMMAND_NAME to 1, ANY_OTHER_COMMAND_NAME to 1)
         )
-        val commandCalls = listOf(currentCommandCall, commandCallFromTwoMonthAgo)
+        val commandCalls = listOf(currentCommandCall, commandCallFromFiveWeeksAgo)
         val currentUniqueChat = UniqueChat(123L, now)
-        val uniqueChatFromTwoMonthsAgo = UniqueChat(233L, twoMonthsAgo)
-        val uniqueChats = listOf(currentUniqueChat, uniqueChatFromTwoMonthsAgo)
+        val uniqueChatFromFiveWeeksAgo = UniqueChat(233L, fiveWeeksAgo)
+        val uniqueChats = listOf(currentUniqueChat, uniqueChatFromFiveWeeksAgo)
 
         //when
         val result = StatsFindings
-                .createWith(period, totalUsersCount, commandTotalSummary, commandCalls, uniqueChats)
+                .create(period, totalUsersCount, commandTotalSummary, commandCalls, uniqueChats)
 
         //then
         assertThat(result.forPeriod()).isEqualTo(period)
@@ -48,8 +47,8 @@ class StatsFindingTest {
     @Test
     fun `should create findings containing previous hour results with totals summary`() {
         //given
-        val now = hourFormat(UnifiedDateTime.now())
-        val eightyMinutesAgo = hourFormat(UnifiedDateTime.now().minusMinutes(80))
+        val now = hourFormatNow()
+        val eightyMinutesAgo = hourFormatNowMinusSec(80*60)
         val commandCallFromEightyMinutesAgo = CommandCalls(eightyMinutesAgo, mapOf(
                 ANY_COMMAND_NAME to 1, ANY_OTHER_COMMAND_NAME to 1)
         )
@@ -64,11 +63,11 @@ class StatsFindingTest {
 
         //when
         val result = StatsFindings
-                .createWith(StatsPeriod.Period.PREVIOUS_HOUR, totalUsersCount, commandTotalSummary, commandCalls,
+                .create(Period.PREVIOUS_HOUR, totalUsersCount, commandTotalSummary, commandCalls,
                         uniqueChats)
 
         //then
-        assertThat(result.forPeriod()).isEqualTo(StatsPeriod.Period.PREVIOUS_HOUR)
+        assertThat(result.forPeriod()).isEqualTo(Period.PREVIOUS_HOUR)
         assertThat(result.totalUsersCount()).isEqualTo(totalUsersCount)
         assertThat(result.commandTotalSummary()).isEqualTo(commandTotalSummary)
 
@@ -79,9 +78,9 @@ class StatsFindingTest {
     @Test
     fun `should produce findings containing current hour results with totals summary`() {
         //given
-        val now = hourFormat(UnifiedDateTime.now())
-        val twoHoursAgo = hourFormat(UnifiedDateTime.now().minusHours(2))
-        val previousDay = hourFormat(UnifiedDateTime.now().minusDays(1))
+        val now = hourFormatNow()
+        val twoHoursAgo = hourFormatNowMinusSec(2*60*60)
+        val previousDay = hourFormatNowMinusSec(24*60*60)
         val currentCommandCall = CommandCalls(now, mapOf(
                 ANY_COMMAND_NAME to 3, ANY_OTHER_COMMAND_NAME to 2)
         )
@@ -97,14 +96,14 @@ class StatsFindingTest {
         val uniqueChatFromPreviousDay = UniqueChat(235L, previousDay)
         val uniqueChats = listOf(currentUniqueChat, uniqueChatFromTwoHoursAgo, uniqueChatFromPreviousDay)
         val currentMonthsFindings = StatsFindings
-                .createWith(StatsPeriod.Period.CURRENT_MONTH, totalUsersCount, commandTotalSummary, commandCalls,
+                .create(Period.CURRENT_MONTH, totalUsersCount, commandTotalSummary, commandCalls,
                         uniqueChats)
 
         //when
-        val currentHourFindings = currentMonthsFindings.filterBy(StatsPeriod.Period.CURRENT_HOUR)
+        val currentHourFindings = currentMonthsFindings.filterBy(Period.CURRENT_HOUR)
 
         //then
-        assertThat(currentHourFindings.forPeriod()).isEqualTo(StatsPeriod.Period.CURRENT_HOUR)
+        assertThat(currentHourFindings.forPeriod()).isEqualTo(Period.CURRENT_HOUR)
         assertThat(currentHourFindings.totalUsersCount()).isEqualTo(totalUsersCount)
         assertThat(currentHourFindings.commandTotalSummary()).isEqualTo(commandTotalSummary)
 

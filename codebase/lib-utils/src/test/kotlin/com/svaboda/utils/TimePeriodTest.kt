@@ -1,24 +1,23 @@
-package com.svaboda.storage.stats.domain
+package com.svaboda.utils
 
-import com.svaboda.storage.stats.domain.StatsPeriod.hourFormat
-import com.svaboda.utils.UnifiedDateTime
+import com.svaboda.utils.TimePeriod.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import kotlin.streams.toList
 
-class StatsPeriodTest {
+class TimePeriodTest {
 
     @Test
     fun `should filter hourly formatted dates from current month`() {
         //given
-        val twoMonthsAgo = hourFormat(UnifiedDateTime.now().minusMonths(2))
-        val now = hourFormat(UnifiedDateTime.now())
-        val hourlyDates = listOf(twoMonthsAgo, now)
+        val fiveWeeksAgo = hourFormatNowMinusSec(5*7*24*60*60)
+        val now = hourFormatNow()
+        val hourlyDates = listOf(fiveWeeksAgo, now)
         val expectedResult = listOf(now)
 
         //when
         val result = hourlyDates.stream()
-                .filter { hourlyDate -> StatsPeriod.Period.CURRENT_MONTH.matches(hourlyDate) }
+                .filter { hourlyDate -> Period.CURRENT_MONTH.matches(hourlyDate) }
                 .toList()
 
         //then
@@ -28,14 +27,14 @@ class StatsPeriodTest {
     @Test
     fun `should filter hourly formatted dates from current day`() {
         //given
-        val today = hourFormat(UnifiedDateTime.now())
-        val yesterday = hourFormat(UnifiedDateTime.now().minusDays(1))
-        val hourlyDates = listOf(today, yesterday)
-        val expectedResult = listOf(today)
+        val now = hourFormatNow()
+        val yesterday = hourFormatNowMinusSec(24*60*60)
+        val hourlyDates = listOf(now, yesterday)
+        val expectedResult = listOf(now)
 
         //when
         val result = hourlyDates.stream()
-                .filter { hourlyDate -> StatsPeriod.Period.TODAY.matches(hourlyDate) }
+                .filter { hourlyDate -> Period.TODAY.matches(hourlyDate) }
                 .toList()
 
         //then
@@ -45,14 +44,14 @@ class StatsPeriodTest {
     @Test
     fun `should filter hourly formatted dates from previous hour`() {
         //given
-        val hourBefore = hourFormat(UnifiedDateTime.now().minusMinutes(61))
-        val twoHoursBefore = hourFormat(UnifiedDateTime.now().minusMinutes(121))
+        val hourBefore = hourFormatNowMinusSec(60*60)
+        val twoHoursBefore = hourFormatNowMinusSec(2*60*60)
         val hourlyDates = listOf(hourBefore, twoHoursBefore)
         val expectedResult = listOf(hourBefore)
 
         //when
         val result = hourlyDates.stream()
-                .filter { hourlyDate -> StatsPeriod.Period.PREVIOUS_HOUR.matches(hourlyDate) }
+                .filter { hourlyDate -> Period.PREVIOUS_HOUR.matches(hourlyDate) }
                 .toList()
 
         //then
@@ -62,14 +61,14 @@ class StatsPeriodTest {
     @Test
     fun `should filter hourly formatted dates from current hour`() {
         //given
-        val currentHour = hourFormat(UnifiedDateTime.now())
-        val hourBefore = hourFormat(UnifiedDateTime.now().minusMinutes(61))
+        val currentHour = hourFormatNow()
+        val hourBefore = hourFormatNowMinusSec(60*60)
         val hourlyDates = listOf(currentHour, hourBefore)
         val expectedResult = listOf(currentHour)
 
         //when
         val result = hourlyDates.stream()
-                .filter { hourlyDate -> StatsPeriod.Period.CURRENT_HOUR.matches(hourlyDate) }
+                .filter { hourlyDate -> Period.CURRENT_HOUR.matches(hourlyDate) }
                 .toList()
 
         //then

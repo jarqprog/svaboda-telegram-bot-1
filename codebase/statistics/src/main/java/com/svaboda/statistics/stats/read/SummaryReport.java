@@ -1,13 +1,10 @@
 package com.svaboda.statistics.stats.read;
 
 import com.svaboda.storage.stats.domain.StatsFindings;
-import com.svaboda.storage.stats.domain.StatsPeriod;
-import com.svaboda.utils.UnifiedDateTime;
+import com.svaboda.utils.TimePeriod;
 import lombok.Value;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Value
 class SummaryReport {
@@ -15,15 +12,15 @@ class SummaryReport {
     private static final String TITLE = "Summary Report";
 
     String title = TITLE;
-    String timeInfo = UnifiedDateTime.INFO;
-    String generatedAt = UnifiedDateTime.now().toString();
+    String timeInfo = TimePeriod.ServiceDateTime.INFO;
+    String generatedAt = TimePeriod.ServiceDateTime.now().toString();
     long totalCalls;
     long uniqueUsersCount;
     Map<String,Long> totalCommandCalls;
-    Map<StatsPeriod.Period,PeriodReport> periodReports;
+    SortedMap<TimePeriod.Period,PeriodReport> periodReports;
 
-    static SummaryReport forPeriods(List<StatsPeriod.Period> periods, StatsFindings statsFindings) {
-        final var periodReports = new HashMap<StatsPeriod.Period,PeriodReport>(periods.size());
+    static SummaryReport generateFor(List<TimePeriod.Period> periods, StatsFindings statsFindings) {
+        final var periodReports = new TreeMap<TimePeriod.Period,PeriodReport>();
         periods.forEach(period -> {
             final var filteredStatsFinding = statsFindings.filterBy(period);
             periodReports.putIfAbsent(period, PeriodReport.from(filteredStatsFinding));
@@ -37,7 +34,7 @@ class SummaryReport {
     }
 
     @Value
-    private static class PeriodReport {
+    static class PeriodReport {
         String title;
         long totalCalls;
         long uniqueUsersCount;

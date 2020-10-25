@@ -2,7 +2,7 @@ package com.svaboda.bot.stats
 
 import com.svaboda.bot.commands.Command
 import com.svaboda.bot.commands.CommandTestUtils.commandsProperties
-import com.svaboda.utils.UnifiedDateTime.now
+import com.svaboda.utils.TimePeriod.ServiceDateTime.now
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
