@@ -13,11 +13,11 @@ class StatsDeletion {
 
     void deleteAt(String url, LocalDateTime at) {
         webClient.delete()
-            .uri(deletionUrl(url, at))
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .toBodilessEntity()
-            .block();
+                .uri(deletionUrl(url, at))
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .toBodilessEntity()
+                .block();
     }
 
     private String deletionUrl(String url, LocalDateTime at) {

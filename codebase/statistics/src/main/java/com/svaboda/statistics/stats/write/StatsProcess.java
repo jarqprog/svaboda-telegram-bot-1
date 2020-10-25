@@ -32,7 +32,7 @@ class StatsProcess {
     private void deleteProcessed(StatsProcessResult statsProcessResult) {
         statsProcessResult.latest()
                 .peek(optionalTimestamp -> optionalTimestamp
-                    .ifPresent(timestamp -> statsDeletion.deleteAt(serviceUrl, timestamp))
+                        .ifPresent(timestamp -> statsDeletion.deleteAt(serviceUrl, timestamp))
                 )
                 .get();
     }

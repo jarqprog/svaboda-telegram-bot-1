@@ -20,6 +20,6 @@ public class StatsDto {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     LocalDateTime timestamp;
-    Map<String,Integer> commandsCalls;
+    Map<String, Integer> commandsCalls;
     Set<Long> uniqueChats;
 }

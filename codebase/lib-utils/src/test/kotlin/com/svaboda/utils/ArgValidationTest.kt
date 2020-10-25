@@ -1,4 +1,4 @@
-package com.svaboda.bot.support
+package com.svaboda.utils
 
 import com.svaboda.utils.ArgsValidation.notEmpty
 import com.svaboda.utils.ArgsValidation.notNull
@@ -33,7 +33,7 @@ class ArgValidationTest {
     @Test
     fun `should throw exception when null param provided`() {
         //then
-            assertThrows<IllegalArgumentException> { notNull(null) }
+        assertThrows<IllegalArgumentException> { notNull(null) }
     }
 
     @Test

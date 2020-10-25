@@ -10,7 +10,7 @@ import java.util.*;
 public class Statistics {
 
     LocalDateTime timestamp;
-    Map<String,Integer> commandsCalls = Collections.synchronizedMap(new HashMap<>());
+    Map<String, Integer> commandsCalls = Collections.synchronizedMap(new HashMap<>());
     Set<Long> uniqueChats = Collections.synchronizedSet(new HashSet<>());
 
     private Statistics(LocalDateTime timestamp, Command command, long chatId) {

@@ -24,9 +24,9 @@ class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         messageProcessor.processWith(update, this)
-            .onFailure(failure ->
+                .onFailure(failure ->
                         LOG.error("Error occurred on processing message", failure)
-            ).get();
+                ).get();
     }
 
     @Override

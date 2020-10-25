@@ -1,5 +1,6 @@
 package com.svaboda.storage.stats.domain;
 
+import com.svaboda.utils.TimePeriod;
 import lombok.Value;
 
 import java.util.List;
@@ -7,13 +8,13 @@ import java.util.stream.Collectors;
 
 @Value
 public class StatsFindings {
-    StatsPeriod.Period forPeriod;
+    TimePeriod.Period forPeriod;
     long totalUsersCount;
     CommandTotalSummary commandTotalSummary;
     List<CommandCalls> commandCalls;
     List<UniqueChat> uniqueChats;
 
-    private StatsFindings(StatsPeriod.Period forPeriod, long totalUsersCount, CommandTotalSummary commandTotalSummary,
+    private StatsFindings(TimePeriod.Period forPeriod, long totalUsersCount, CommandTotalSummary commandTotalSummary,
                           List<CommandCalls> commandCalls, List<UniqueChat> uniqueChats) {
         this.forPeriod = forPeriod;
         this.totalUsersCount = totalUsersCount;
@@ -22,9 +23,9 @@ public class StatsFindings {
         this.uniqueChats = uniqueChats;
     }
 
-    public static StatsFindings createWith(StatsPeriod.Period forPeriod, long totalUsersCount,
-                                           CommandTotalSummary commandTotalSummary, List<CommandCalls> commandCalls,
-                                           List<UniqueChat> uniqueChats) {
+    public static StatsFindings create(TimePeriod.Period forPeriod, long totalUsersCount,
+                                       CommandTotalSummary commandTotalSummary, List<CommandCalls> commandCalls,
+                                       List<UniqueChat> uniqueChats) {
         return new StatsFindings(
                 forPeriod,
                 totalUsersCount,
@@ -38,8 +39,8 @@ public class StatsFindings {
         );
     }
 
-    public StatsFindings filterBy(StatsPeriod.Period period) {
-        return createWith(
+    public StatsFindings filterBy(TimePeriod.Period period) {
+        return create(
                 period,
                 totalUsersCount,
                 commandTotalSummary,

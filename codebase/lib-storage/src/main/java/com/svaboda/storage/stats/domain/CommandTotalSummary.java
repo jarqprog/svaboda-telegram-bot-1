@@ -8,11 +8,11 @@ import java.util.Map;
 
 @Value
 public class CommandTotalSummary {
-    Map<String,Long> commandCalls;
+    Map<String, Long> commandCalls;
     long totalCalls;
 
     public static CommandTotalSummary from(List<CommandCount> commandCounts) {
-        final var cmdCalls = new HashMap<String,Long>(commandCounts.size());
+        final var cmdCalls = new HashMap<String, Long>(commandCounts.size());
         final var total = commandCounts.stream()
                 .peek(commandCount -> cmdCalls.putIfAbsent(commandCount.command(), commandCount.count()))
                 .map(CommandCount::count)

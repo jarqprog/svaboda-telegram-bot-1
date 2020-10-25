@@ -1,8 +1,8 @@
 plugins {
-	id "java"
-	id "io.freefair.lombok" version "5.2.1"
-	id "org.jetbrains.kotlin.jvm" version "1.4.10"
-	id "io.spring.dependency-management" version "1.0.10.RELEASE"
+    id "java"
+    id "io.freefair.lombok" version "5.2.1"
+    id "org.jetbrains.kotlin.jvm" version "1.4.10"
+    id "io.spring.dependency-management" version "1.0.10.RELEASE"
 }
 
 project.ext.javaVersion = 14
@@ -16,63 +16,63 @@ project.ext.sl4jVersion = "2.13.3"
 project.ext.jacksonVersion = "2.11.0"
 
 repositories {
-	mavenCentral()
-	jcenter()
+    mavenCentral()
+    jcenter()
 }
 
 allprojects {
-	group = "com.svaboda"
-	version = "1.0.0-SNAPSHOT"
-	apply plugin: "java"
-	sourceCompatibility = javaVersion
-	targetCompatibility = javaVersion
+    group = "com.svaboda"
+    version = "1.0.0-SNAPSHOT"
+    apply plugin: "java"
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
 
-	repositories {
-		mavenCentral()
-		jcenter()
-	}
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
 }
 
 subprojects {
-	apply plugin: "io.freefair.lombok"
-	apply plugin: "org.jetbrains.kotlin.jvm"
+    apply plugin: "io.freefair.lombok"
+    apply plugin: "org.jetbrains.kotlin.jvm"
 
-	dependencies {
-		implementation "org.springframework.boot:spring-boot-starter-web:$springbootVersion"
-		implementation "org.yaml:snakeyaml:1.27"
-		implementation "io.vavr:vavr:$vavrVersion"
+    dependencies {
+        implementation "org.springframework.boot:spring-boot-starter-web:$springbootVersion"
+        implementation "org.yaml:snakeyaml:1.27"
+        implementation "io.vavr:vavr:$vavrVersion"
 
-		testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-		testImplementation "org.mockito:mockito-inline:2.13.0"
-		testImplementation("org.springframework.boot:spring-boot-starter-test:$springbootVersion") {
-			exclude module: "junit"
-			exclude module: "junit-vintage-engine"
-		}
+        testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+        testImplementation "org.mockito:mockito-inline:2.13.0"
+        testImplementation("org.springframework.boot:spring-boot-starter-test:$springbootVersion") {
+            exclude module: "junit"
+            exclude module: "junit-vintage-engine"
+        }
 
-		//lombok
-		implementation "org.projectlombok:lombok:$lombokVersion"
-		annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+        //lombok
+        implementation "org.projectlombok:lombok:$lombokVersion"
+        annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 
-		//logging
-		implementation "org.apache.logging.log4j:log4j-slf4j-impl:$sl4jVersion"
-		implementation "org.apache.logging.log4j:log4j-api:$sl4jVersion"
-		implementation "org.apache.logging.log4j:log4j-core:$sl4jVersion"
-		implementation "org.apache.logging.log4j:log4j-jul:$sl4jVersion"
-		implementation "org.slf4j:jul-to-slf4j:1.7.30"
-	}
+        //logging
+        implementation "org.apache.logging.log4j:log4j-slf4j-impl:$sl4jVersion"
+        implementation "org.apache.logging.log4j:log4j-api:$sl4jVersion"
+        implementation "org.apache.logging.log4j:log4j-core:$sl4jVersion"
+        implementation "org.apache.logging.log4j:log4j-jul:$sl4jVersion"
+        implementation "org.slf4j:jul-to-slf4j:1.7.30"
+    }
 
-	configurations.all {
-		exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
-	}
+    configurations.all {
+        exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+    }
 
-	compileTestKotlin {
-		kotlinOptions {
-			jvmTarget = "14"
-		}
-	}
+    compileTestKotlin {
+        kotlinOptions {
+            jvmTarget = "14"
+        }
+    }
 
-	test {
-		useJUnitPlatform()
-	}
+    test {
+        useJUnitPlatform()
+    }
 
 }

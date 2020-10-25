@@ -2,7 +2,7 @@ package com.svaboda.bot.stats
 
 import com.svaboda.bot.commands.Command
 import com.svaboda.bot.commands.CommandTestUtils.commandsProperties
-import com.svaboda.utils.UnifiedDateTime.now
+import com.svaboda.utils.TimePeriod.ServiceDateTime.now
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -54,11 +54,13 @@ class CachedStatisticsTest {
         //given
         val chatId = 1L
         val commands = commandsProperties().commands()
-        val commandsCount = mutableMapOf<Command,Int>()
+        val commandsCount = mutableMapOf<Command, Int>()
         val callsNumber = 3
         commands.forEach { commandsCount[it] = callsNumber }
         commandsCount.forEach { (command, count) ->
-            for(call in 1..count) { cachedStatistics.register(command, chatId) }
+            for (call in 1..count) {
+                cachedStatistics.register(command, chatId)
+            }
         }
 
         //when
@@ -94,9 +96,9 @@ class CachedStatisticsTest {
         //given
         val chatIds = listOf(1L, 2L, 1L, 3L, 1L, 3L)
         val command = Command.TOPICS_INSTANCE
-        val expectedCommandCallsCount = mutableMapOf<String,Int>()
+        val expectedCommandCallsCount = mutableMapOf<String, Int>()
         chatIds.forEach { chatId ->
-            for(call in 1..10) {
+            for (call in 1..10) {
                 cachedStatistics.register(command, chatId)
                 expectedCommandCallsCount.computeIfAbsent(command.name()) { 0 }
                 expectedCommandCallsCount.computeIfPresent(command.name()) { _, count -> count + 1 }

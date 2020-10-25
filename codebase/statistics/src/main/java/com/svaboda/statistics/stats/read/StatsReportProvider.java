@@ -14,7 +14,7 @@ import java.util.List;
 import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_ABSENT;
 import static com.fasterxml.jackson.annotation.PropertyAccessor.FIELD;
-import static com.svaboda.storage.stats.domain.StatsPeriod.Period.*;
+import static com.svaboda.utils.TimePeriod.Period.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,9 +23,9 @@ class StatsReportProvider {
     private final StatsReadRepository statsReadRepository;
 
     Try<String> monthly() {
-        final var periodsToBeIncluded = List.of(CURRENT_MONTH, PREVIOUS_HOUR, TODAY, CURRENT_MONTH);
+        final var periodsToBeIncluded = List.of(CURRENT_MONTH, TODAY, PREVIOUS_HOUR, CURRENT_HOUR);
         return statsReadRepository.fromLastMonth()
-                .map(findings -> SummaryReport.forPeriods(periodsToBeIncluded, findings))
+                .map(findings -> SummaryReport.generateFor(periodsToBeIncluded, findings))
                 .map(SummaryReportPrinter::print)
                 .peek(__ -> log.info("Monthly stats published"));
     }

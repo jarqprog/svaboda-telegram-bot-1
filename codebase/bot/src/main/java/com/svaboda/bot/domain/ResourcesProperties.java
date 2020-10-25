@@ -29,9 +29,9 @@ public class ResourcesProperties {
         this.path = notEmpty(path);
         this.fileExtension = notEmpty(fileExtension);
         this.maxResourceSize = positive(maxResourceSize);
-        this.topicEnrichmentLine = "\n\n"+notEmpty(topicEnrichmentLine)+"\n\n";
-        this.goToArticleLine = "\n\n"+notEmpty(goToArticleLine)+" ";
-        this.header = "\n"+notEmpty(header)+"\n\n";
+        this.topicEnrichmentLine = "\n\n" + notEmpty(topicEnrichmentLine) + "\n\n";
+        this.goToArticleLine = "\n\n" + notEmpty(goToArticleLine) + " ";
+        this.header = "\n" + notEmpty(header) + "\n\n";
     }
 
 }

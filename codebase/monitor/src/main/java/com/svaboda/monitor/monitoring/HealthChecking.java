@@ -14,10 +14,10 @@ class HealthChecking {
 
     Mono<HealthStatus> check(String url) {
         return webClient.get()
-                        .uri(url)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .retrieve()
-                        .toEntity(String.class)
-                        .map(response -> HealthStatus.from(response, url));
+                .uri(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .toEntity(String.class)
+                .map(response -> HealthStatus.from(response, url));
     }
 }

@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 class CommandsContainer implements Commands {
     private final static String TELEGRAM_COMMAND_PREFIX = "/";
 
-    private final Map<String,Command> commandsCache = new ConcurrentHashMap<>();
+    private final Map<String, Command> commandsCache = new ConcurrentHashMap<>();
 
     CommandsContainer(List<Command> commands) {
         commands.forEach(command -> commandsCache

@@ -9,7 +9,7 @@ object CommandTestUtils {
     fun hugeCommand(): Command = Command("huge", "huge", ANY_EXTERNAL_LINK)
     fun noWhitespaceCommand(): Command = Command("noWhitespace", "no_whitespace", ANY_EXTERNAL_LINK)
     fun commandsProperties(): CommandsProperties = CommandsProperties(
-        listOf(topicsCommand(), cyrillicCommand(), hugeCommand(), noWhitespaceCommand())
+            listOf(topicsCommand(), cyrillicCommand(), hugeCommand(), noWhitespaceCommand())
     )
 
 }

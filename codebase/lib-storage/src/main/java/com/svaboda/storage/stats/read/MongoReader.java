@@ -1,6 +1,7 @@
 package com.svaboda.storage.stats.read;
 
 import com.svaboda.storage.stats.domain.*;
+import com.svaboda.utils.TimePeriod;
 import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -20,12 +21,12 @@ class MongoReader implements StatsReadRepository {
 
     @Override
     public Try<StatsFindings> fromLastMonth() {
-        final var period = StatsPeriod.Period.CURRENT_MONTH;
+        final var period = TimePeriod.Period.CURRENT_MONTH;
         return findWith(statsPeriodQuery(period), period);
     }
 
-    private Try<StatsFindings> findWith(Query query, StatsPeriod.Period period) {
-        return Try.of(() -> StatsFindings.createWith(
+    private Try<StatsFindings> findWith(Query query, TimePeriod.Period period) {
+        return Try.of(() -> StatsFindings.create(
                 period,
                 totalUniqueUsers(),
                 totalCommandCount(),
@@ -41,8 +42,8 @@ class MongoReader implements StatsReadRepository {
     private CommandTotalSummary totalCommandCount() {
         return CommandTotalSummary.from(
                 mongoTemplate.findAll(CommandCount.Entity.class).stream()
-                    .map(CommandCount::from)
-                    .collect(Collectors.toList())
+                        .map(CommandCount::from)
+                        .collect(Collectors.toList())
         );
     }
 
@@ -58,7 +59,7 @@ class MongoReader implements StatsReadRepository {
                 .collect(Collectors.toList());
     }
 
-    private Query statsPeriodQuery(StatsPeriod.Period period) {
+    private Query statsPeriodQuery(TimePeriod.Period period) {
         return new Query(Criteria.where(DATE_HOUR).regex(period.searchRegex()));
     }
 
