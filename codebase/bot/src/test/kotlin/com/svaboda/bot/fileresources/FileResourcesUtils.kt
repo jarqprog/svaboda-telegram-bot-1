@@ -6,7 +6,7 @@ import com.svaboda.bot.domain.ResourcesProperties
 object FileResourcesUtils {
 
     private const val TEXTS_PATH = "texts/"
-    const val TEXTS_FILE_EXTENSION = ".md"
+    const val TEXTS_FILE_EXTENSION = ".txt"
     const val MAX_RESOURCE_SIZE = 3_000
     const val MIN_RESOURCE_SIZE = 500
     const val TOPICS_ENRICHMENT_LINE = "back to topics -> /topics"

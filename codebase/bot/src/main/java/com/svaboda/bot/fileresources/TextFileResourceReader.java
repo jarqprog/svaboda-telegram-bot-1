@@ -26,7 +26,7 @@ class TextFileResourceReader {
     }
 
     private String asFullPath(String filename) {
-        return resourcePath+filename+fileExtension;
+        return resourcePath + filename + fileExtension;
     }
 
     private InputStream asStream(String path) {

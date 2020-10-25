@@ -41,7 +41,7 @@ class CachedFileResourceProvider implements ResourceProvider<String> {
                 .flatMap(resource -> transformer.asContent(command, resource))
                 .map(TelegramResource::new)
                 .recoverWith(failure -> Try.failure(
-                            new ReadingFileException("Unable to resolve resource "+command.resourceId(), failure)
+                            new ReadingFileException("Unable to resolve resource " + command.resourceId(), failure)
                         )
                 )
                 .onFailure(failure -> LOG.error(failure.getMessage(), failure))

@@ -4,7 +4,7 @@ env:
   telegram:
     texts:
       path: texts/
-      fileExtension: .md
+      fileExtension: .txt
       maxResourceSize: 3000
       topicEnrichmentLine: back to topics -> /topics
       goToArticleLine: go to article ->

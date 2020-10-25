@@ -1,4 +1,4 @@
-package com.svaboda.bot.support
+package com.svaboda.utils
 
 import com.svaboda.utils.ArgsValidation.notEmpty
 import com.svaboda.utils.ArgsValidation.notNull
