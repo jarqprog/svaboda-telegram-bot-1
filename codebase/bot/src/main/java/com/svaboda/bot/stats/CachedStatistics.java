@@ -36,7 +36,7 @@ class CachedStatistics implements StatisticsHandler {
     @Override
     public Try<Void> deleteAt(LocalDateTime at) {
         return Try.run(() -> removeFromDate(at))
-            .onFailure(ex -> log.error("Error occurred on removing statistics", ex));
+                .onFailure(ex -> log.error("Error occurred on removing statistics", ex));
     }
 
     private void registerStatistics(Command command, Long chatId) {

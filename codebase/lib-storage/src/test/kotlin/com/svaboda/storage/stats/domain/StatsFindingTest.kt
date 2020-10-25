@@ -19,7 +19,7 @@ class StatsFindingTest {
         //given
         val period = Period.CURRENT_MONTH
         val now = hourFormatNow()
-        val fiveWeeksAgo = hourFormatNowMinusSec(5*7*24*60*60)
+        val fiveWeeksAgo = hourFormatNowMinusSec(5 * 7 * 24 * 60 * 60)
         val currentCommandCall = CommandCalls(now, mapOf(
                 ANY_COMMAND_NAME to 3, ANY_OTHER_COMMAND_NAME to 2)
         )
@@ -48,7 +48,7 @@ class StatsFindingTest {
     fun `should create findings containing previous hour results with totals summary`() {
         //given
         val now = hourFormatNow()
-        val hourAgo = hourFormatNowMinusSec(60*60)
+        val hourAgo = hourFormatNowMinusSec(60 * 60)
         println(hourAgo)
         val commandCallFromEightyMinutesAgo = CommandCalls(hourAgo, mapOf(
                 ANY_COMMAND_NAME to 1, ANY_OTHER_COMMAND_NAME to 1)
@@ -80,8 +80,8 @@ class StatsFindingTest {
     fun `should produce findings containing current hour results with totals summary`() {
         //given
         val now = hourFormatNow()
-        val twoHoursAgo = hourFormatNowMinusSec(2*60*60)
-        val previousDay = hourFormatNowMinusSec(24*60*60)
+        val twoHoursAgo = hourFormatNowMinusSec(2 * 60 * 60)
+        val previousDay = hourFormatNowMinusSec(24 * 60 * 60)
         val currentCommandCall = CommandCalls(now, mapOf(
                 ANY_COMMAND_NAME to 3, ANY_OTHER_COMMAND_NAME to 2)
         )

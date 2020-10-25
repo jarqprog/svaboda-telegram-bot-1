@@ -10,7 +10,7 @@ class TimePeriodTest {
     @Test
     fun `should filter hourly formatted dates from current month`() {
         //given
-        val fiveWeeksAgo = hourFormatNowMinusSec(5*7*24*60*60)
+        val fiveWeeksAgo = hourFormatNowMinusSec(5 * 7 * 24 * 60 * 60)
         val now = hourFormatNow()
         val hourlyDates = listOf(fiveWeeksAgo, now)
         val expectedResult = listOf(now)
@@ -28,7 +28,7 @@ class TimePeriodTest {
     fun `should filter hourly formatted dates from current day`() {
         //given
         val now = hourFormatNow()
-        val yesterday = hourFormatNowMinusSec(24*60*60)
+        val yesterday = hourFormatNowMinusSec(24 * 60 * 60)
         val hourlyDates = listOf(now, yesterday)
         val expectedResult = listOf(now)
 
@@ -44,8 +44,8 @@ class TimePeriodTest {
     @Test
     fun `should filter hourly formatted dates from previous hour`() {
         //given
-        val hourBefore = hourFormatNowMinusSec(60*60)
-        val twoHoursBefore = hourFormatNowMinusSec(2*60*60)
+        val hourBefore = hourFormatNowMinusSec(60 * 60)
+        val twoHoursBefore = hourFormatNowMinusSec(2 * 60 * 60)
         val hourlyDates = listOf(hourBefore, twoHoursBefore)
         val expectedResult = listOf(hourBefore)
 
@@ -62,7 +62,7 @@ class TimePeriodTest {
     fun `should filter hourly formatted dates from current hour`() {
         //given
         val currentHour = hourFormatNow()
-        val hourBefore = hourFormatNowMinusSec(60*60)
+        val hourBefore = hourFormatNowMinusSec(60 * 60)
         val hourlyDates = listOf(currentHour, hourBefore)
         val expectedResult = listOf(currentHour)
 

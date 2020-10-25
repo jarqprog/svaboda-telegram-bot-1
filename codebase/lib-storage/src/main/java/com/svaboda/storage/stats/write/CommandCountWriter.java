@@ -27,38 +27,38 @@ class CommandCountWriter {
 
     private Try<List<HourlyStatistic>> upsert(List<HourlyStatistic> hourlyStatistics) {
         return Try.of(() -> {
-                if (hourlyStatistics.isEmpty()) {
+                    if (hourlyStatistics.isEmpty()) {
+                        return hourlyStatistics;
+                    }
+                    final var existing = loadExisting();
+                    final var merged = merge(existing, hourlyStatistics);
+                    mongoTemplate.insert(merged, CommandCount.Entity.class);
+                    log.info("Updated totals commands count");
                     return hourlyStatistics;
                 }
-                final var existing = loadExisting();
-                final var merged = merge(existing, hourlyStatistics);
-                mongoTemplate.insert(merged, CommandCount.Entity.class);
-                log.info("Updated totals commands count");
-                return hourlyStatistics;
-            }
         );
     }
 
     private List<CommandCount> loadExisting() {
         return mongoTemplate.findAllAndRemove(FIND_ALL, CommandCount.Entity.class).stream()
-                        .map(CommandCount::from)
-                        .collect(Collectors.toList());
+                .map(CommandCount::from)
+                .collect(Collectors.toList());
     }
 
     private List<CommandCount> merge(List<CommandCount> existing, List<HourlyStatistic> toUpsert) {
-        final var toMerge = new HashMap<String,Long>();
+        final var toMerge = new HashMap<String, Long>();
         existing.forEach(commandCount ->
                 toMerge.put(commandCount.command(), commandCount.count())
         );
         toUpsert.forEach(hourlyStatistic ->
-                hourlyStatistic.commandsCalls().forEach((command,callCount) -> {
+                hourlyStatistic.commandsCalls().forEach((command, callCount) -> {
                             toMerge.putIfAbsent(command, 0L);
-                            toMerge.computeIfPresent(command, (__,cc) -> callCount + cc);
+                            toMerge.computeIfPresent(command, (__, cc) -> callCount + cc);
                         }
                 )
         );
         final var merged = new ArrayList<CommandCount>(toMerge.size());
-        toMerge.forEach((command,count) -> merged.add(new CommandCount(command, count)));
+        toMerge.forEach((command, count) -> merged.add(new CommandCount(command, count)));
         return merged;
     }
 }

@@ -16,11 +16,11 @@ class SummaryReport {
     String generatedAt = TimePeriod.ServiceDateTime.now().toString();
     long totalCalls;
     long uniqueUsersCount;
-    Map<String,Long> totalCommandCalls;
-    SortedMap<TimePeriod.Period,PeriodReport> periodReports;
+    Map<String, Long> totalCommandCalls;
+    SortedMap<TimePeriod.Period, PeriodReport> periodReports;
 
     static SummaryReport generateFor(List<TimePeriod.Period> periods, StatsFindings statsFindings) {
-        final var periodReports = new TreeMap<TimePeriod.Period,PeriodReport>();
+        final var periodReports = new TreeMap<TimePeriod.Period, PeriodReport>();
         periods.forEach(period -> {
             final var filteredStatsFinding = statsFindings.filterBy(period);
             periodReports.putIfAbsent(period, PeriodReport.from(filteredStatsFinding));
@@ -38,23 +38,23 @@ class SummaryReport {
         String title;
         long totalCalls;
         long uniqueUsersCount;
-        Map<String,Long> commandCalls;
+        Map<String, Long> commandCalls;
 
         private static PeriodReport from(StatsFindings statsFindings) {
-            final var cmdCalls = new HashMap<String,Long>();
+            final var cmdCalls = new HashMap<String, Long>();
             statsFindings.commandCalls().forEach(element ->
-                element.commandCalls().forEach((cc,callCount) -> {
-                    cmdCalls.putIfAbsent(cc, 0L);
-                    cmdCalls.computeIfPresent(cc, (__,value) -> callCount.longValue() + value);
-                })
+                    element.commandCalls().forEach((cc, callCount) -> {
+                        cmdCalls.putIfAbsent(cc, 0L);
+                        cmdCalls.computeIfPresent(cc, (__, value) -> callCount.longValue() + value);
+                    })
             );
             return new PeriodReport(
                     statsFindings.forPeriod().name(),
                     statsFindings.commandCalls().stream()
-                        .map(commandCalls -> commandCalls
-                                .commandCalls().values().stream()
+                            .map(commandCalls -> commandCalls
+                                    .commandCalls().values().stream()
                                     .reduce(0, Integer::sum))
-                        .reduce(0, Integer::sum),
+                            .reduce(0, Integer::sum),
                     statsFindings.uniqueChats().size(),
                     cmdCalls
             );

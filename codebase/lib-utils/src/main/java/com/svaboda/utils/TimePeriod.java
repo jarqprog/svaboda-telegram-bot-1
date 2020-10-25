@@ -43,7 +43,7 @@ public interface TimePeriod {
     enum Period {
         CURRENT_MONTH(OF_MONTH, 0),
         TODAY(OF_DAY, 0),
-        PREVIOUS_HOUR(OF_HOUR,  1),
+        PREVIOUS_HOUR(OF_HOUR, 1),
         CURRENT_HOUR(OF_HOUR, 0);
 
         private final DateTimeFormatter dateTimeFormatter;

@@ -13,7 +13,7 @@ class CommandCallsTest {
     @Test
     fun `should merge with other when DateHour is the same`() {
         //given
-        val commandCallsDocument =mapOf(
+        val commandCallsDocument = mapOf(
                 ANY_COMMAND_NAME to 5,
                 ANY_OTHER_COMMAND_NAME to 1
         )

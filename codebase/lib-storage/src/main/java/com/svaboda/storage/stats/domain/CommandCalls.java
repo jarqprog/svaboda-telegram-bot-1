@@ -17,7 +17,7 @@ import static com.svaboda.utils.ArgsValidation.notNull;
 public class CommandCalls {
 
     String dateHour;
-    Map<String,Integer> commandCalls;
+    Map<String, Integer> commandCalls;
 
     public CommandCalls(String dateHour, Map<String, Integer> commandCalls) {
         this.dateHour = notEmpty(dateHour);
@@ -36,7 +36,7 @@ public class CommandCalls {
     }
 
     public static CommandCalls from(Entity entity) {
-        final var commandCalls = new HashMap<String,Integer>();
+        final var commandCalls = new HashMap<String, Integer>();
         entity.commandCalls.forEach((key, value) -> commandCalls.putIfAbsent(key, (Integer) value));
         return new CommandCalls(entity.dateHour, commandCalls);
     }

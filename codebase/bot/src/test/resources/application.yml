@@ -16,15 +16,12 @@ env:
   statistics:
     aggregationMode: SECOND
   commands:
-    -
-      name: cyrillic
+    - name: cyrillic
       resourceId: cyrillic
       externalLink: https://docs.google.com/document/d/1-r8kf1zSx1U9RjKIQEfAdL_TKsltG8dXFleMcU9lxbY/edit?usp=sharing
-    -
-      name: huge
+    - name: huge
       resourceId: huge
       externalLink: https://docs.google.com/document/d/1-r8kf1zSx1U9RjKIQEfAdL_TKsltG8dXFleMcU9lxbY/edit?usp=sharing
-    -
-      name: no_whitespace
+    - name: no_whitespace
       resourceId: no_whitespace
       externalLink: https://docs.google.com/document/d/1-r8kf1zSx1U9RjKIQEfAdL_TKsltG8dXFleMcU9lxbY/edit?usp=sharing

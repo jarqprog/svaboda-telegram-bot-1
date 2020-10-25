@@ -1,2 +1,2 @@
-rootProject.name='telegram-bot'
+rootProject.name = 'telegram-bot'
 include('bot', 'monitor', 'statistics', 'lib-diagnostic', 'lib-storage', 'lib-utils', 'lib-http')

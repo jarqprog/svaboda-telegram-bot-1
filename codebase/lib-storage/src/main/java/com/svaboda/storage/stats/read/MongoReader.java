@@ -42,8 +42,8 @@ class MongoReader implements StatsReadRepository {
     private CommandTotalSummary totalCommandCount() {
         return CommandTotalSummary.from(
                 mongoTemplate.findAll(CommandCount.Entity.class).stream()
-                    .map(CommandCount::from)
-                    .collect(Collectors.toList())
+                        .map(CommandCount::from)
+                        .collect(Collectors.toList())
         );
     }
 

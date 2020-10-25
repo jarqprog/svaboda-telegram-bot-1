@@ -117,7 +117,9 @@ class MessageProcessingSpec {
         Mockito.`when`(telegramBot.execute(sendMessage)).thenReturn(Mockito.mock(Message::class.java))
         val callsNumber = 10
 
-        for (call in 1..callsNumber) { simpleMessageProcessor.processWith(update, telegramBot) }
+        for (call in 1..callsNumber) {
+            simpleMessageProcessor.processWith(update, telegramBot)
+        }
 
         //when
         val result = statisticsHandler.provide().get()

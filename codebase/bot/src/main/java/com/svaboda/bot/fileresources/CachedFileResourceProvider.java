@@ -17,7 +17,7 @@ class CachedFileResourceProvider implements ResourceProvider<String> {
 
     private static final Logger LOG = LoggerFactory.getLogger(CachedFileResourceProvider.class);
 
-    private final Map<String,TelegramResource<String>> cache = new ConcurrentHashMap<>();
+    private final Map<String, TelegramResource<String>> cache = new ConcurrentHashMap<>();
     private final TextFileResourceReader reader;
     private final ResourceTransformer<String> transformer;
 
@@ -32,7 +32,7 @@ class CachedFileResourceProvider implements ResourceProvider<String> {
                 .map(filename -> cache.computeIfAbsent(
                         filename,
                         __ -> resolveBy(command)
-                    )
+                        )
                 );
     }
 
@@ -41,7 +41,7 @@ class CachedFileResourceProvider implements ResourceProvider<String> {
                 .flatMap(resource -> transformer.asContent(command, resource))
                 .map(TelegramResource::new)
                 .recoverWith(failure -> Try.failure(
-                            new ReadingFileException("Unable to resolve resource " + command.resourceId(), failure)
+                        new ReadingFileException("Unable to resolve resource " + command.resourceId(), failure)
                         )
                 )
                 .onFailure(failure -> LOG.error(failure.getMessage(), failure))

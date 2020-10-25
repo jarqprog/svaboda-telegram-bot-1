@@ -33,7 +33,7 @@ class ArgValidationTest {
     @Test
     fun `should throw exception when null param provided`() {
         //then
-            assertThrows<IllegalArgumentException> { notNull(null) }
+        assertThrows<IllegalArgumentException> { notNull(null) }
     }
 
     @Test

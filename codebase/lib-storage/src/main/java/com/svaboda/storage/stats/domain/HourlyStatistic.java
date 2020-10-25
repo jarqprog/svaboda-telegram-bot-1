@@ -11,7 +11,7 @@ import static com.svaboda.utils.TimePeriod.hourFormat;
 public class HourlyStatistic {
 
     String dateHour;
-    Map<String,Integer> commandsCalls;
+    Map<String, Integer> commandsCalls;
     Set<Long> uniqueChats;
 
     public static HourlyStatistic from(StatsDto statsDto) {

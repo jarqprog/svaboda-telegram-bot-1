@@ -35,22 +35,22 @@ class TextTransformer implements ResourceTransformer<String> {
                 .map(enrichWithTopicsCommand(command));
     }
 
-    private Function<String,String> enrichWithHeader() {
+    private Function<String, String> enrichWithHeader() {
         return text -> resourcesProperties.header() + text;
     }
 
-    private Function<String,String> enrichWithTopicsCommand(Command command) {
+    private Function<String, String> enrichWithTopicsCommand(Command command) {
         return text -> command.isTopicsCommand() ? text
                 : text + resourcesProperties.topicEnrichmentLine();
     }
 
-    private Function<String,String> enrichWithLink(Command command) {
+    private Function<String, String> enrichWithLink(Command command) {
         return text -> command.externalLink()
                 .map(link -> text + resourcesProperties.goToArticleLine() + link)
                 .orElse(text);
     }
 
-    private Function<String,String> withProperSize() {
+    private Function<String, String> withProperSize() {
         return text -> text.length() > shortenedMaxResourceSize ? toProperSize(text) : text;
     }
 

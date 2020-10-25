@@ -16,27 +16,21 @@ env:
   statistics:
     aggregationMode: MINUTE
   commands:
-    -
-      name: krok
+    - name: krok
       resourceId: krok
       externalLink: https://docs.google.com/document/d/e/2PACX-1vRV_wxxv9o1RAJosF3e5PQFC_xVe4L5eeGF0kdxkWiNseEYw3a3hrZzokDebsMbOvjQ064isjuu1wSL/pub
-    -
-      name: bezenec
+    - name: bezenec
       resourceId: bezenec
       externalLink: https://docs.google.com/document/d/e/2PACX-1vRGBNY2ZjxXuUt22Lvwqeeu298rFR2ZW-y3Tes3pDu5WavEcvIHgqCzNs_ky0nS6eM5Pf9CyIEj7kfm/pub
-    -
-      name: gumanitarnaja
+    - name: gumanitarnaja
       resourceId: gumanitarnaja
       externalLink: https://docs.google.com/document/d/e/2PACX-1vTw4tRsa2qNe6-1ezGhVp5e_6kjo-BNCwW4xP2_mmWCd7vcSSd1ekpoVSXcrAA4Ho2LMnK6cRwi1896/pub
-    -
-      name: legal
+    - name: legal
       resourceId: legal
       externalLink: https://docs.google.com/document/d/e/2PACX-1vRL7nUmTmLlOwn2nac44jTABH--xBrvwwWwTcpsbSAJ3NiJABfFlSgEgUBuBI-W1BTZOo18bQKl9hlj/pub
-    -
-      name: rabota
+    - name: rabota
       resourceId: rabota
       externalLink: https://docs.google.com/document/d/e/2PACX-1vQDrllYnBNyXpB7WDbUeOckzq7e7_x1RkcoBp-7LAFfuja80oBlOwENUUJNjXuczIpOtuaqout3oxLi/pub
-    -
-      name: byt
+    - name: byt
       resourceId: byt
       externalLink: https://docs.google.com/document/d/e/2PACX-1vRdCImII56KdgfmtpnmK6lrDdDG3JsrRpBaiPCPwUU_IejVqOfFQzjrt_az4VbwAyRR0rHKkvmlBqyU/pub

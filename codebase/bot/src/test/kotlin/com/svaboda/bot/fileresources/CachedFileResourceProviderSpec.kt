@@ -51,7 +51,9 @@ class CachedFileResourceProviderSpec {
         val numberOfCalls = 10
 
         //when
-        for (call in 1..numberOfCalls) { cachedFileResourceProviderIT.provideBy(command) }
+        for (call in 1..numberOfCalls) {
+            cachedFileResourceProviderIT.provideBy(command)
+        }
 
         //then
         Mockito.verify(resourceProvider, Mockito.times(1)).readFrom(ArgumentMatchers.any())
