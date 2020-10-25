@@ -48,8 +48,9 @@ class StatsFindingTest {
     fun `should create findings containing previous hour results with totals summary`() {
         //given
         val now = hourFormatNow()
-        val eightyMinutesAgo = hourFormatNowMinusSec(80*60)
-        val commandCallFromEightyMinutesAgo = CommandCalls(eightyMinutesAgo, mapOf(
+        val hourAgo = hourFormatNowMinusSec(60*60)
+        println(hourAgo)
+        val commandCallFromEightyMinutesAgo = CommandCalls(hourAgo, mapOf(
                 ANY_COMMAND_NAME to 1, ANY_OTHER_COMMAND_NAME to 1)
         )
         val currentCommandCall = CommandCalls(now, mapOf(
@@ -57,7 +58,7 @@ class StatsFindingTest {
         )
         val commandCalls = listOf(commandCallFromEightyMinutesAgo, currentCommandCall)
 
-        val uniqueChatFromEightyMinutesAgo = UniqueChat(233L, eightyMinutesAgo)
+        val uniqueChatFromEightyMinutesAgo = UniqueChat(233L, hourAgo)
         val currentUniqueChat = UniqueChat(123L, now)
         val uniqueChats = listOf(uniqueChatFromEightyMinutesAgo, currentUniqueChat)
 
